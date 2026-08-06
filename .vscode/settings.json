@@ -1,0 +1,5 @@
+{
+  "tailwindCSS.classAttributes": ["class", "className"],
+  "tailwindCSS.experimental.configFile": "tailwind.config.js",
+  "tailwindCSS.validate": true
+}
