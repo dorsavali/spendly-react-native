@@ -1,7 +1,9 @@
 import { Image, Text, View } from "react-native";
 import AppButton from "../src/components/AppButton";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from "expo-router";
 export default function Index() {
+  const router = useRouter();
   return (
     <LinearGradient colors={["#1F4D3A", "#2E8B57", "#6FCF97"]} start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }} className=" w-full h-full flex items-center justify-center  ">
@@ -17,7 +19,7 @@ export default function Index() {
       <Text className="font-poppins-semibold text-5xl text-white">Spendly</Text>
       <Text className="font-poppins text-2xl text-white">Take Control of Your Finances</Text>
       <Text className="text-center font-poppins text-lg text-white">Easily track, Analyze, and Optimize Your Spending in one place</Text>
-      <AppButton variant="primary">
+      <AppButton variant="primary" onPress={() => router.push("/login")}>
       Get Started
     </AppButton>
     </View>
