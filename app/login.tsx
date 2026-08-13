@@ -58,7 +58,7 @@ const Login = () => {
                 placeholder="Password"
                 keyboardType="numeric"
               />
-              <AppButton variant="outline" onPress={() => router.push("/home")}>
+              <AppButton variant="outline" onPress={() => router.push({ pathname: "/home", params: { username: text } })}>
                 Login
               </AppButton>
             </View>
