@@ -2,10 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image, Text, View } from "react-native";
 
 const RecentTransation = () => {
-    return ( <View className="flex-1 gap-5 w-full bg-white rounded-2xl p-3">
-        <Text className="font-poppins-semibold text-xl text-text-primary">
-            Recent Transactions
-        </Text>
+    return ( <View className="flex gap-5 w-full bg-white rounded-2xl p-3">
+        <View className="flex-row justify-between items-center">
+                <Text className="font-poppins-semibold text-xl text-text-primary">
+                Recent Transactions
+            </Text>  
+            <Text className="font-poppins-semibold text-sm text-text-primary">
+                see all
+            </Text>  
+                </View>  
         <View className="flex-row w-full justify-between  items-center">
                 <View className="flex-row justify-start gap-3">
                     <Ionicons name="car-sport-outline" className="p-2 rounded-2xl " size={30} />

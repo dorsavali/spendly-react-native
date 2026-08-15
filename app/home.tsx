@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Categories from "../src/components/HomeCategories";
 import RecentTransation from "../src/components/RecentTransactions";
+import Navbar from "../src/components/Nav";
 const Home = () => {
   const { username } = useLocalSearchParams();
   return (
@@ -39,6 +40,7 @@ const Home = () => {
         </View>
       <Categories />
       <RecentTransation/>
+      <Navbar/>
       </SafeAreaView>
     </SafeAreaProvider>
   );
