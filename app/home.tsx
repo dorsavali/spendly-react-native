@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import Categories from "../src/components/TempCategories";
+import Categories from "../src/components/HomeCategories";
 const Home = () => {
   const { username } = useLocalSearchParams();
   return (
