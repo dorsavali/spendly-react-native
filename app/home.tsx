@@ -18,7 +18,7 @@ const Home = () => {
           <Ionicons name="person-outline" size={24} color="#2E8B57" />
         </View>
         <View className="w-full  flex gap-3">
-          <View className="bg-white h-52 rounded-2xl  flex justify-center items-center gap-6">
+          <View className="bg-white w-full h-52 rounded-2xl  flex justify-center items-center gap-6">
             <Text className="font-poppins-semibold text-xl text-text-secondary">
               Total Balance
             </Text>

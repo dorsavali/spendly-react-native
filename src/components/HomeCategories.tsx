@@ -46,7 +46,7 @@ const Categories  = () => {
                 <Text className="font-poppins-semibold text-xl text-text-primary">
                 Categories
             </Text>  
-            <Text className="font-poppins-semibold text-sm text-text-primary">
+            <Text className="font-poppins-semibold text-sm text-primary">
                 see all
             </Text>  
                 </View>    

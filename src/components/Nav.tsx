@@ -112,7 +112,7 @@ const Navbar = () => {
 
   const handlePress = (item: MenuType) => {
     if (item.id === 3) {
-      router.push("/add-expense");
+      router.push("/addTransaction");
       return;
     }
 

@@ -17,37 +17,33 @@ const AddExpense = () => {
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [category, setCategory] = useState("Choose the category");
   const [notes, setNotes] = useState("");
+const [type, setType] = useState<"Expense" | "Income">("Expense");
   const data = [
     {
       id: 1,
       title: "Food",
       icon: "fast-food-outline",
-      spend: "$200",
       bg: "bg-[#FFB703]",
     },
     {
       id: 2,
       title: "Transport",
       icon: "car-outline",
-      spend: "$100",
       bg: "bg-[#7BDFF2]",
     },
     {
       id: 3,
       title: "Shopping",
       icon: "cart-outline",
-      spend: "$300",
       bg: "bg-[#F7A1C4]",
     },
     {
       id: 4,
       title: "Bills",
       icon: "cash-outline",
-      spend: "$400",
       bg: "bg-[#F4D35E]",
     },
   ];
-
   return (
     <SafeAreaView className="flex-1 w-full px-4">
       <View className="relative flex-row items-center justify-center py-3">
@@ -55,8 +51,37 @@ const AddExpense = () => {
           <Ionicons name="return-down-back-outline" size={24} />
         </Pressable>
         <Text className="font-poppins-semibold text-xl text-text-primary">
-          Add Expense
+          Add Transaction
         </Text>
+      </View>
+      <View className="flex justify-center items-center">
+        <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
+          <Pressable
+            className={
+               type==="Expense"
+                ? "bg-[#d8f3dc] rounded-2xl p-2"
+                : `bg-none p-2`
+            }
+            onPress={() => {
+              setType("Expense");
+            }}
+          >
+            <Text className="font-poppins-semibold text-text-primary">Expense</Text>
+          </Pressable>
+          <Text className="font-poppins-semibold ">|</Text>
+          <Pressable
+          className={
+               type==="Income"
+                ? "bg-[#d8f3dc] rounded-2xl p-2"
+                : `bg-none p-2`
+            }
+            onPress={() => {
+              setType("Income");
+            }}
+          >
+            <Text className="font-poppins-semibold text-text-primary">Income</Text>
+          </Pressable>
+        </View>
       </View>
       <View>
         <Text className="font-poppins-semibold mb-1">Amount</Text>
@@ -169,6 +194,7 @@ const AddExpense = () => {
             category,
             date: date.toISOString(),
             notes,
+            type,
           });
 
           router.back();

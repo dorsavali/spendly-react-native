@@ -9,6 +9,7 @@ type Expense = {
   category: string;
   date: string;
   notes?: string;
+  type: "Expense" | "Income";
 };
 
 type ExpenseStore = {
@@ -30,6 +31,6 @@ export const useExpenseStore = create<ExpenseStore>()(
     {
       name: "expense-storage",
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );
