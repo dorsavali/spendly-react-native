@@ -16,7 +16,7 @@ type MenuType = {
   id: number;
   title: string;
   icon: IconName;
-  route?: "/home" | "/statistics" | "/transactions" | "/profile";
+  route?: "/home" | "/statistics" | "/transaction" | "/profile";
 };
 
 type TabItemProps = {
@@ -105,7 +105,7 @@ const Navbar = () => {
       id: 4,
       title: "Transactions",
       icon: "pricetags-outline",
-      route: "/transactions",
+      route: "/transaction",
     },
     { id: 5, title: "Profile", icon: "person-outline", route: "/profile" },
   ];
@@ -117,7 +117,7 @@ const Navbar = () => {
     }
 
     if (item.route) {
-      router.replace(item.route);
+      router.push(item.route);
     }
   };
 
