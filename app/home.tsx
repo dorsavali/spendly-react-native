@@ -8,6 +8,17 @@ import Navbar from "../src/components/Nav";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 const Home = () => {
   const { username } = useLocalSearchParams();
+  const expenses = useExpenseStore((state) => state.expenses);
+
+const totalIncome = expenses
+  .filter((item) => item.type === "Income")
+  .reduce((sum, item) => sum + item.amount, 0);
+
+const totalExpense = expenses
+  .filter((item) => item.type === "Expense")
+  .reduce((sum, item) => sum + item.amount, 0);
+
+const totalBalance = totalIncome - totalExpense;
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1  bg-background  w-full gap-4">
@@ -22,20 +33,20 @@ const Home = () => {
             <Text className="font-poppins-semibold text-xl text-text-secondary">
               Total Balance
             </Text>
-            <Text className="font-poppins-bold text-2xl">€12,540</Text>
+            <Text className="font-poppins-bold text-2xl"> €{totalBalance}</Text>
           </View>
           <View className="flex-row justify-between gap-2">
             <View className="bg-white w-1/2 flex rounded-2xl h-32 flex justify-center items-center gap-6">
               <Text className="font-poppins-semibold text-lg text-success">
                 Income
               </Text>
-              <Text className="font-poppins-bold text-xl">€19,200</Text>
+              <Text className="font-poppins-bold text-xl">€{totalIncome}</Text>
             </View>
             <View className="bg-white w-1/2 flex rounded-2xl h-32 flex justify-center items-center gap-6">
               <Text className="font-poppins-semibold text-lg text-danger">
                 Expense
               </Text>
-              <Text className="font-poppins-bold text-xl">€6,660</Text>
+              <Text className="font-poppins-bold text-xl">€{totalExpense}</Text>
             </View>
           </View>
         </View>
