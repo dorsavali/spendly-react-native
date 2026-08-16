@@ -14,7 +14,13 @@ type Expense = {
 
 type ExpenseStore = {
   expenses: Expense[];
+
   addExpense: (expense: Expense) => void;
+
+  updateExpense: (
+    id: string,
+    updatedExpense: Partial<Expense>
+  ) => void;
 };
 
 export const useExpenseStore = create<ExpenseStore>()(
@@ -26,11 +32,20 @@ export const useExpenseStore = create<ExpenseStore>()(
         set((state) => ({
           expenses: [...state.expenses, expense],
         })),
+
+      updateExpense: (id, updatedExpense) =>
+        set((state) => ({
+          expenses: state.expenses.map((item) =>
+            item.id === id
+              ? { ...item, ...updatedExpense }
+              : item
+          ),
+        })),
     }),
 
     {
       name: "expense-storage",
       storage: createJSONStorage(() => AsyncStorage),
-    },
-  ),
+    }
+  )
 );

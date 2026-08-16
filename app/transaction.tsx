@@ -86,7 +86,7 @@ const Transaction = () => {
         {filteredExpenses.map((item) => (
           <View
             key={item.id}
-            className="w-full bg-white rounded-2xl p-4 flex-row justify-between items-center"
+            className="w-full bg-white rounded-2xl p-3 flex-row justify-between items-center"
           >
             <View className="flex-row items-center gap-3 flex-1">
               <View className="w-11 h-11 rounded-2xl bg-surface items-center justify-center">
@@ -102,7 +102,6 @@ const Transaction = () => {
                   }
                   size={24}
                   color="#2B2B2B"
-                  className="p-2"
                 />
               </View>
 
@@ -117,21 +116,39 @@ const Transaction = () => {
               </View>
             </View>
 
-            <View className="items-end gap-1">
-              <Text className="font-poppins text-xs text-text-secondary">
-                {new Date(item.date).toLocaleDateString()}
-              </Text>
+            <View className="flex-row items-center gap-1">
+  <View className="items-end gap-1">
+    <Text className="font-poppins text-xs text-text-secondary">
+      {new Date(item.date).toLocaleDateString()}
+    </Text>
 
-              {item.type === "Expense" ? (
-                <Text className="font-poppins-semibold text-base text-danger">
-                  - ${item.amount}
-                </Text>
-              ) : (
-                <Text className="font-poppins-semibold text-base text-success">
-                  + ${item.amount}
-                </Text>
-              )}
-            </View>
+    {item.type === "Expense" ? (
+      <Text className="font-poppins-semibold text-base text-danger">
+        - ${item.amount}
+      </Text>
+    ) : (
+      <Text className="font-poppins-semibold text-base text-success">
+        + ${item.amount}
+      </Text>
+    )}
+  </View>
+
+  <Pressable
+    onPress={() =>
+      router.push({
+        pathname: "/editTransaction",
+        params: { id: item.id },
+      })
+    }
+    className="p-2"
+  >
+    <Ionicons
+      name="ellipsis-vertical"
+      size={20}
+      color="#6B705C"
+    />
+  </Pressable>
+</View>
           </View>
         ))}
       </View>
