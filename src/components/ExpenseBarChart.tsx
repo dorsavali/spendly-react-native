@@ -1,4 +1,3 @@
-
 import { Text, View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 
@@ -14,79 +13,105 @@ type Props = {
 };
 
 const ExpenseBarChart = ({ expenses, period }: Props) => {
-  const mondayTotal = expenses
+  const now = new Date();
+
+  const currentYear = now.getFullYear();
+
+  const startOfWeek = new Date(now);
+  const currentDay = now.getDay();
+
+  const distanceToMonday = currentDay === 0 ? 6 : currentDay - 1;
+
+  startOfWeek.setDate(now.getDate() - distanceToMonday);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  const currentWeekExpenses = expenses.filter((item) => {
+    const itemDate = new Date(item.date);
+
+    return itemDate >= startOfWeek && itemDate <= endOfWeek;
+  });
+
+  const currentYearExpenses = expenses.filter((item) => {
+    return new Date(item.date).getFullYear() === currentYear;
+  });
+
+  const mondayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 1)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const tuesdayTotal = expenses
+  const tuesdayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 2)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const wednesdayTotal = expenses
+  const wednesdayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 3)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const thursdayTotal = expenses
+  const thursdayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 4)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const fridayTotal = expenses
+  const fridayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 5)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const saturdayTotal = expenses
+  const saturdayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 6)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const sundayTotal = expenses
+  const sundayTotal = currentWeekExpenses
     .filter((item) => new Date(item.date).getDay() === 0)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const janTotal = expenses
+  const janTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 0)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const febTotal = expenses
+  const febTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 1)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const marTotal = expenses
+  const marTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 2)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const aprTotal = expenses
+  const aprTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 3)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const mayTotal = expenses
+  const mayTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 4)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const junTotal = expenses
+  const junTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 5)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const julTotal = expenses
+  const julTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 6)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const augTotal = expenses
+  const augTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 7)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const sepTotal = expenses
+  const sepTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 8)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const octTotal = expenses
+  const octTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 9)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const novTotal = expenses
+  const novTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 10)
     .reduce((sum, item) => sum + item.amount, 0);
 
-  const decTotal = expenses
+  const decTotal = currentYearExpenses
     .filter((item) => new Date(item.date).getMonth() === 11)
     .reduce((sum, item) => sum + item.amount, 0);
 
@@ -118,52 +143,58 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
   const chartData = period === "Week" ? weeklyData : yearlyData;
 
   return (
-    <View className="w-full bg-white rounded-2xl ">
-  <Text className="font-poppins-semibold text-lg text-text-primary mb-4 p-5">
-    Expense by Time
-  </Text>
+    <View className="w-full bg-white rounded-2xl overflow-hidden">
+      <Text className="font-poppins-semibold text-lg text-text-primary mb-4 p-5">
+        Expense by Time
+      </Text>
 
-  <BarChart
-    data={chartData}
+      <BarChart
+  data={chartData}
+  barWidth={period === "Week" ? 24 : 18}
+  spacing={period === "Week" ? 19 : 16}
+  initialSpacing={10}
+  endSpacing={10}
 
-    barWidth={period === "Week" ? 28 : 18}
+  maxValue={1000}
+  noOfSections={5}
+  stepValue={200}
 
-    spacing={period === "Week" ? 15 : 16}
+  roundedTop
+  showGradient
 
-    initialSpacing={period === "Week" ? 12 : 10}
+  isAnimated
+  animationDuration={900}
 
-    endSpacing={period === "Week" ? 12 : 10}
+  disableScroll={period === "Week"}
 
-    maxValue={1000}
-    noOfSections={5}
+  width={period === "Week" ? 310 : undefined}
 
-    roundedTop
-    showGradient
+  yAxisLabelTexts={[
+    "0",
+    "200",
+    "400",
+    "600",
+    "800",
+    "1000",
+  ]}
 
-    isAnimated
-    animationDuration={900}
+  yAxisTextStyle={{
+    color: "#6B705C",
+    fontSize: 11,
+    fontFamily: "Poppins_400Regular",
+  }}
 
-    disableScroll={period === "Week"}
+  xAxisLabelTextStyle={{
+    color: "#6B705C",
+    fontSize: 10,
+    fontFamily: "Poppins_400Regular",
+  }}
 
-    width={period === "Week" ? 300 : undefined}
-
-    yAxisTextStyle={{
-      color: "#6B705C",
-      fontSize: 11,
-      fontFamily: "Poppins_400Regular",
-    }}
-
-    xAxisLabelTextStyle={{
-      color: "#6B705C",
-      fontSize: 10,
-      fontFamily: "Poppins_400Regular",
-    }}
-
-    rulesColor="#E5E7EB"
-    xAxisColor="#D1D5DB"
-    yAxisColor="#D1D5DB"
-  />
-</View>
+  rulesColor="#E5E7EB"
+  xAxisColor="#D1D5DB"
+  yAxisColor="#D1D5DB"
+/>
+    </View>
   );
 };
 
