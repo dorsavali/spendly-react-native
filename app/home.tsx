@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Categories from "../src/components/HomeCategories";
 import RecentTransation from "../src/components/RecentTransactions";
 import Navbar from "../src/components/Nav";
+import { useExpenseStore } from "../src/store/ExpenseStore";
 const Home = () => {
   const { username } = useLocalSearchParams();
   return (

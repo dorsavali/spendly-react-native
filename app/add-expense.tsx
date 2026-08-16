@@ -6,15 +6,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Navbar from "../src/components/Nav";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AppButton from "../src/components/AppButton";
+import { useExpenseStore } from "../src/store/ExpenseStore";
 const AddExpense = () => {
   const router = useRouter();
-
+  const addExpense = useExpenseStore((state) => state.addExpense);
   const [amount, setAmount] = useState("");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [category, setCategory] = useState("Choose the category");
+  const [notes, setNotes] = useState("");
   const data = [
     {
       id: 1,
@@ -148,18 +150,32 @@ const AddExpense = () => {
       </View>
       <View>
         <Text className="font-poppins-semibold mb-1">Notes (Optional)</Text>
-
         <TextInput
-          value={amount}
-          onChangeText={setAmount}
+          value={notes}
+          onChangeText={setNotes}
           multiline
           textAlignVertical="top"
           placeholder="Enter notes"
-          keyboardType="default"
           className="w-full h-36 border border-gray-300 bg-white rounded-md px-3 mb-4"
         />
       </View>
-      <AppButton variant="outline">Save Expense</AppButton>
+      <AppButton
+        variant="outline"
+        onPress={() => {
+          addExpense({
+            id: Date.now().toString(),
+            title,
+            amount: Number(amount),
+            category,
+            date: date.toISOString(),
+            notes,
+          });
+
+          router.back();
+        }}
+      >
+        Save Expense
+      </AppButton>
       <Navbar />
     </SafeAreaView>
   );
