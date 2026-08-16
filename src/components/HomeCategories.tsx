@@ -37,11 +37,11 @@ const Categories  = () => {
             title : "Bills",
             icon : "cash-outline",
             spend:"$400",
-            bg: "bg-[#F4D35E]"
+            bg: "bg-[#85BB65]"
         }
     ]
     return ( 
-        <View className="flex justify-around gap-4">
+        <View className="flex justify-around gap-4 px-5">
              <View className="flex-row justify-between items-center">
                 <Text className="font-poppins-semibold text-xl text-text-primary">
                 Categories

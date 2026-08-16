@@ -1,6 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useEffect} from "react";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navbar from "../src/components/Nav";
@@ -10,14 +16,14 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 const AddExpense = () => {
   const router = useRouter();
   const addExpense = useExpenseStore((state) => state.addExpense);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(""); 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [category, setCategory] = useState("Choose the category");
   const [notes, setNotes] = useState("");
-const [type, setType] = useState<"Expense" | "Income">("Expense");
+  const [type, setType] = useState<"Expense" | "Income">("Expense");
   const data = [
     {
       id: 1,
@@ -41,9 +47,29 @@ const [type, setType] = useState<"Expense" | "Income">("Expense");
       id: 4,
       title: "Bills",
       icon: "cash-outline",
-      bg: "bg-[#F4D35E]",
+      bg: "bg-[#85BB65]",
     },
   ];
+  const expenseScale = useSharedValue(1);
+const incomeScale = useSharedValue(1);
+
+useEffect(() => {
+  expenseScale.value = withTiming(type === "Expense" ? 1.05 : 1, {
+    duration: 300,
+  });
+
+  incomeScale.value = withTiming(type === "Income" ? 1.05 : 1, {
+    duration: 300,
+  });
+}, [type]);
+
+const expenseStyle = useAnimatedStyle(() => ({
+  transform: [{ scale: expenseScale.value }],
+}));
+
+const incomeStyle = useAnimatedStyle(() => ({
+  transform: [{ scale: incomeScale.value }],
+}));
   return (
     <SafeAreaView className="flex-1 w-full px-4">
       <View className="relative flex-row items-center justify-center py-3">
@@ -55,34 +81,44 @@ const [type, setType] = useState<"Expense" | "Income">("Expense");
         </Text>
       </View>
       <View className="flex justify-center items-center">
-        <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
-          <Pressable
-            className={
-               type==="Expense"
-                ? "bg-[#d8f3dc] rounded-2xl p-2"
-                : `bg-none p-2`
-            }
-            onPress={() => {
-              setType("Expense");
-            }}
-          >
-            <Text className="font-poppins-semibold text-text-primary">Expense</Text>
-          </Pressable>
-          <Text className="font-poppins-semibold ">|</Text>
-          <Pressable
-          className={
-               type==="Income"
-                ? "bg-[#d8f3dc] rounded-2xl p-2"
-                : `bg-none p-2`
-            }
-            onPress={() => {
-              setType("Income");
-            }}
-          >
-            <Text className="font-poppins-semibold text-text-primary">Income</Text>
-          </Pressable>
-        </View>
-      </View>
+  <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
+    <Animated.View style={expenseStyle}>
+      <Pressable
+        className={
+          type === "Expense"
+            ? "bg-[#d8f3dc] rounded-2xl p-2"
+            : "bg-transparent p-2"
+        }
+        onPress={() => {
+          setType("Expense");
+        }}
+      >
+        <Text className="font-poppins-semibold text-text-primary">
+          Expense
+        </Text>
+      </Pressable>
+    </Animated.View>
+
+    <Text className="font-poppins-semibold">|</Text>
+
+    <Animated.View style={incomeStyle}>
+      <Pressable
+        className={
+          type === "Income"
+            ? "bg-[#d8f3dc] rounded-2xl p-2"
+            : "bg-transparent p-2"
+        }
+        onPress={() => {
+          setType("Income");
+        }}
+      >
+        <Text className="font-poppins-semibold text-text-primary">
+          Income
+        </Text>
+      </Pressable>
+    </Animated.View>
+  </View>
+</View>
       <View>
         <Text className="font-poppins-semibold mb-1">Amount</Text>
 

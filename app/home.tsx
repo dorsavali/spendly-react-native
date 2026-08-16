@@ -10,14 +10,14 @@ const Home = () => {
   const { username } = useLocalSearchParams();
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex-1  bg-background p-6 w-full gap-4">
-        <View className="flex-row justify-between gap-2">
+      <SafeAreaView className="flex-1  bg-background  w-full gap-4">
+        <View className="flex-row justify-between items-center gap-2 px-5 py-3">
           <Text className="font-poppins-semibold text-xl text-text-primary">
             Welcome Back, {username}!
           </Text>
           <Ionicons name="person-outline" size={24} color="#2E8B57" />
         </View>
-        <View className="w-full  flex gap-3">
+        <View className="w-full  flex gap-3 px-5">
           <View className="bg-white w-full h-52 rounded-2xl  flex justify-center items-center gap-6">
             <Text className="font-poppins-semibold text-xl text-text-secondary">
               Total Balance

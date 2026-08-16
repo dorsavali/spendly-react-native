@@ -10,7 +10,7 @@ const RecentTransation = () => {
   const router = useRouter();
 if (expenses.length === 0) {
   return (
-    <View className="w-full bg-white rounded-2xl p-5 gap-5">
+    <View className="w-full bg-white rounded-2xl gap-5">
       <View className="w-full flex-row justify-between items-center">
         <Text className="font-poppins-semibold text-xl text-text-primary">
           Recent Transactions
@@ -39,7 +39,7 @@ if (expenses.length === 0) {
 }
 
 return (
-  <View className="w-full gap-4">
+  <View className="w-full gap-4 px-5">
     <View className="w-full flex-row justify-between items-center">
       <Text className="font-poppins-semibold text-xl text-text-primary">
         Recent Transactions
@@ -56,7 +56,7 @@ return (
       {recentExpenses.map((item) => (
       <View
         key={item.id}
-        className="w-full bg-white rounded-2xl p-4 flex-row justify-between items-center"
+        className="w-full bg-white rounded-2xl p-3 flex-row justify-between items-center"
       >
         <View className="flex-row items-center gap-3 flex-1">
           <View className="w-11 h-11 rounded-2xl bg-surface items-center justify-center">
