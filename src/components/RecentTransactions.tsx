@@ -1,12 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useExpenseStore } from "../store/ExpenseStore";
+import { useRouter } from "expo-router";
 
 const RecentTransation = () => {
   const expenses = useExpenseStore((state) => state.expenses);
 
   const recentExpenses = expenses.slice(-3).reverse();
-  
+  const router = useRouter()
 if (expenses.length === 0) {
   return (
     
@@ -16,9 +17,11 @@ if (expenses.length === 0) {
             Recent Transactions
           </Text>
   
-          <Text className="font-poppins-semibold text-sm text-text-primary">
+          <Pressable onPress={()=>router.push("/transaction")}>
+            <Text className="font-poppins-semibold text-sm text-text-primary">
             see all
           </Text>
+          </Pressable>
         </View>
       <Ionicons
         name="receipt-outline"
@@ -43,9 +46,11 @@ if (expenses.length === 0) {
             Recent Transactions
           </Text>
   
-          <Text className="font-poppins-semibold text-sm text-text-primary">
+          <Pressable onPress={()=>router.push("/transaction")}>
+            <Text className="font-poppins-semibold text-sm text-text-primary">
             see all
           </Text>
+          </Pressable>
         </View>
         
         {recentExpenses.map((item) => (
