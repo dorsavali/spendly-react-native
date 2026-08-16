@@ -50,7 +50,7 @@ const Categories  = () => {
                 see all
             </Text>  
                 </View>    
-            <View className="flex-row justify-between gap-2">
+            <View className="flex-row justify-between gap-2 bg-white rounded-2xl py-1">
                 {data.map((item,index) => (
                 <View className="flex w-1/5 items-center gap-2 py-2 rounded-xl"  key={index}>
                     <Ionicons name={item.icon} className={`p-2 rounded-2xl ${item.bg}`} size={30} />
