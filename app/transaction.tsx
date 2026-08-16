@@ -42,10 +42,16 @@ const Transaction = () => {
   const expenses = useExpenseStore((state) => state.expenses);
   const router = useRouter();
   const [filter, setFilter] = useState<"All" | "Income" | "Expense">("All");
-  const filteredExpenses =
-    filter === "All"
-      ? expenses
-      : expenses.filter((item) => item.type === filter);
+  const [search, setSearch] = useState("");
+  const filteredExpenses = expenses.filter((item) => {
+    const matchesType = filter === "All" || item.type === filter;
+
+    const matchesSearch =
+      item.title.toLowerCase().includes(search.toLowerCase()) ||
+      item.category.toLowerCase().includes(search.toLowerCase());
+
+    return matchesType && matchesSearch;
+  });
   return (
     <SafeAreaView className="flex-1 w-full px-4 gap-4">
       <View className="relative flex-row items-center justify-center py-3">
@@ -56,7 +62,7 @@ const Transaction = () => {
           Transactions
         </Text>
       </View>
-      <Search />
+      <Search search={search} setSearch={setSearch} />
       <View className="flex-row gap-3 ">
         <FilterButton
           title="All"
