@@ -19,20 +19,20 @@ const Statistics = () => {
   const filteredExpenses = expenses.filter((item) => item.type === "Expense");
 
   return (
-    <SafeAreaView className="flex-1 w-full px-5 gap-4">
+    <SafeAreaView className="flex-1 w-full gap-4 bg-background px-5 dark:bg-dark-background">
       <View className="flex-1 gap-11 w-full ">
         <View className="relative flex-row items-center justify-center py-3">
         <Pressable className="absolute left-0" onPress={() => router.back()}>
           <Ionicons name="return-down-back-outline" size={24} />
         </Pressable>
 
-        <Text className="font-poppins-semibold text-xl text-text-primary">
+        <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
           Statistics
         </Text>
       </View>
 
        <View className="flex gap-11 w-full ">
-<Text className="font-poppins-semibold text-xl text-text-primary">
+<Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
   Expense Overview
 </Text>
       <ExpensePieChart expenses={filteredExpenses} />

@@ -23,7 +23,7 @@ export default function AppButton({
   const getButtonVariant = () => {
     switch (variant) {
       case "primary":
-        return "bg-white border border-white";
+        return "bg-white dark:bg-dark-surface border border-white";
 
       case "outline":
         return "bg-primary border border-primary";
@@ -32,14 +32,14 @@ export default function AppButton({
         return "bg-red-500 border border-red-500";
 
       default:
-        return "bg-white";
+        return "bg-white dark:bg-dark-surface";
     }
   };
 
   const getTextVariant = () => {
     switch (variant) {
       case "primary":
-        return "text-text-primary";
+        return "text-text-primary dark:text-dark-text-primary";
 
       case "outline":
         return "text-white";

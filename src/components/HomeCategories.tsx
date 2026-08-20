@@ -46,12 +46,12 @@ const Categories = () => {
   return (
     <View className="w-full gap-4 px-5">
       <View className="flex-row justify-between items-center">
-        <Text className="font-poppins-semibold text-xl text-text-primary">
+        <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
           Categories
         </Text>
       </View>
 
-      <View className="flex-row justify-between gap-2 bg-white rounded-2xl py-2">
+      <View className="flex-row justify-between gap-2 bg-white dark:bg-dark-surface rounded-2xl py-2">
         {data.map((item) => {
           return (
             <Pressable
@@ -72,7 +72,7 @@ const Categories = () => {
                 size={30}
               />
 
-              <Text className="font-poppins text-sm text-text-primary">
+              <Text className="font-poppins text-sm text-text-primary dark:text-dark-text-primary">
                 {item.title}
               </Text>
 

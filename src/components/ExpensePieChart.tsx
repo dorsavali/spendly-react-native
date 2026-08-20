@@ -1,5 +1,9 @@
 import { Text, View } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
+import { useSettingsStore } from "../store/SettingStore";
+import { formatCurrency } from "../utils/currency";
+
+
 
 type Expense = {
   id: string;
@@ -16,6 +20,10 @@ type Props = {
 };
 
 const ExpensePieChart = ({ expenses }: Props) => {
+  const currency = useSettingsStore(
+    (state) => state.currency
+  );
+
   const totalExpense = expenses.reduce(
     (sum, item) => sum + item.amount,
     0
@@ -93,11 +101,14 @@ const ExpensePieChart = ({ expenses }: Props) => {
         innerRadius={60}
         centerLabelComponent={() => (
           <View className="items-center">
-            <Text className="font-poppins-bold text-lg">
-              ${totalExpense}
+            <Text className="font-poppins-bold text-lg text-text-primary dark:text-dark-text-primary">
+              {formatCurrency(
+                totalExpense,
+                currency
+              )}
             </Text>
 
-            <Text className="font-poppins text-xs text-text-secondary">
+            <Text className="font-poppins text-xs text-text-secondary ">
               Total Expense
             </Text>
           </View>
@@ -110,17 +121,22 @@ const ExpensePieChart = ({ expenses }: Props) => {
             <View className="bg-[#FFB703] w-4 h-4 rounded-sm" />
 
             <View>
-              <Text className="font-poppins-semibold text-sm text-text-primary">
+              <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">
                 Food
               </Text>
 
-              <Text className="font-poppins-semibold text-sm text-text-secondary">
-                {totalFood}
+              <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+                {formatCurrency(
+                  totalFood,
+                  currency
+                )}
               </Text>
             </View>
           </View>
 
-          <Text>{foodPercent}%</Text>
+          <Text className="text-text-primary dark:text-dark-text-primary">
+            {foodPercent}%
+          </Text>
         </View>
 
         <View className="flex-row justify-between">
@@ -128,17 +144,22 @@ const ExpensePieChart = ({ expenses }: Props) => {
             <View className="bg-[#7BDFF2] w-4 h-4 rounded-sm" />
 
             <View>
-              <Text className="font-poppins-semibold text-sm text-text-primary">
+              <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">
                 Transport
               </Text>
 
-              <Text className="font-poppins-semibold text-sm text-text-secondary">
-                {totalTransport}
+              <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+                {formatCurrency(
+                  totalTransport,
+                  currency
+                )}
               </Text>
             </View>
           </View>
 
-          <Text>{TransportPercent}%</Text>
+          <Text className="text-text-primary dark:text-dark-text-primary">
+            {TransportPercent}%
+          </Text>
         </View>
 
         <View className="flex-row justify-between">
@@ -146,17 +167,22 @@ const ExpensePieChart = ({ expenses }: Props) => {
             <View className="bg-[#F7A1C4] w-4 h-4 rounded-sm" />
 
             <View>
-              <Text className="font-poppins-semibold text-sm text-text-primary">
+              <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">
                 Shopping
               </Text>
 
-              <Text className="font-poppins-semibold text-sm text-text-secondary">
-                {totalShopping}
+              <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+                {formatCurrency(
+                  totalShopping,
+                  currency
+                )}
               </Text>
             </View>
           </View>
 
-          <Text>{ShoppingPercent}%</Text>
+          <Text className="text-text-primary dark:text-dark-text-primary">
+            {ShoppingPercent}%
+          </Text>
         </View>
 
         <View className="flex-row justify-between">
@@ -164,17 +190,22 @@ const ExpensePieChart = ({ expenses }: Props) => {
             <View className="bg-[#85BB65] w-4 h-4 rounded-sm" />
 
             <View>
-              <Text className="font-poppins-semibold text-sm text-text-primary">
+              <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">
                 Bills
               </Text>
 
-              <Text className="font-poppins-semibold text-sm text-text-secondary">
-                {totalBills}
+              <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+                {formatCurrency(
+                  totalBills,
+                  currency
+                )}
               </Text>
             </View>
           </View>
 
-          <Text>{BillsPercent}%</Text>
+          <Text className="text-text-primary dark:text-dark-text-primary">
+            {BillsPercent}%
+          </Text>
         </View>
       </View>
     </View>

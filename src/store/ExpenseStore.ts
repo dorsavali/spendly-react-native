@@ -21,6 +21,8 @@ type ExpenseStore = {
     id: string,
     updatedExpense: Partial<Expense>
   ) => void;
+
+  resetExpenses: () => void;
 };
 
 export const useExpenseStore = create<ExpenseStore>()(
@@ -41,6 +43,11 @@ export const useExpenseStore = create<ExpenseStore>()(
               : item
           ),
         })),
+
+      resetExpenses: () =>
+        set({
+          expenses: [],
+        }),
     }),
 
     {

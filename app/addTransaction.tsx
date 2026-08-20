@@ -71,48 +71,48 @@ const incomeStyle = useAnimatedStyle(() => ({
   transform: [{ scale: incomeScale.value }],
 }));
   return (
-    <SafeAreaView className="flex-1 w-full px-4">
+    <SafeAreaView className="flex-1 w-full bg-background px-4 dark:bg-dark-background">
       <View className="relative flex-row items-center justify-center py-3">
         <Pressable className="absolute left-0" onPress={() => router.back()}>
           <Ionicons name="return-down-back-outline" size={24} />
         </Pressable>
-        <Text className="font-poppins-semibold text-xl text-text-primary">
+        <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
           Add Transaction
         </Text>
       </View>
       <View className="flex justify-center items-center">
-  <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
+  <View className="flex-row justify-center items-center gap-4 bg-surface dark:bg-dark-surface p-2 rounded-2xl">
     <Animated.View style={expenseStyle}>
       <Pressable
         className={
           type === "Expense"
-            ? "bg-[#d8f3dc] rounded-2xl p-2"
+            ? "bg-[#d8f3dc] dark:bg-primary rounded-2xl p-2"
             : "bg-transparent p-2"
         }
         onPress={() => {
           setType("Expense");
         }}
       >
-        <Text className="font-poppins-semibold text-text-primary">
+        <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
           Expense
         </Text>
       </Pressable>
     </Animated.View>
 
-    <Text className="font-poppins-semibold">|</Text>
+    <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">|</Text>
 
     <Animated.View style={incomeStyle}>
       <Pressable
         className={
           type === "Income"
-            ? "bg-[#d8f3dc] rounded-2xl p-2"
+            ? "bg-[#d8f3dc] dark:bg-primary rounded-2xl p-2"
             : "bg-transparent p-2"
         }
         onPress={() => {
           setType("Income");
         }}
       >
-        <Text className="font-poppins-semibold text-text-primary">
+        <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
           Income
         </Text>
       </Pressable>
@@ -120,34 +120,34 @@ const incomeStyle = useAnimatedStyle(() => ({
   </View>
 </View>
       <View>
-        <Text className="font-poppins-semibold mb-1">Amount</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Amount</Text>
 
         <TextInput
           value={amount}
           onChangeText={setAmount}
           placeholder="Enter Amount"
           keyboardType="numeric"
-          className="w-full h-12 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
       <View>
-        <Text className="font-poppins-semibold mb-1">Title</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Title</Text>
 
         <TextInput
           value={title}
           onChangeText={setTitle}
           placeholder="Enter Title"
-          className="w-full h-12 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
       <View className="w-full">
-        <Text className="font-poppins-semibold mb-1">Category</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Category</Text>
 
         <Pressable
           onPress={() => setCategoryOpen(!categoryOpen)}
-          className="w-full h-12 flex-row items-center justify-between border border-gray-300 bg-white rounded-md px-3"
+          className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
-          <Text className="font-poppins text-text-secondary">{category}</Text>
+          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">{category}</Text>
 
           <Ionicons
             name={categoryOpen ? "chevron-up" : "chevron-down"}
@@ -157,7 +157,7 @@ const incomeStyle = useAnimatedStyle(() => ({
         </Pressable>
 
         {categoryOpen && (
-          <View className="w-full bg-white rounded-2xl border border-gray-200 mt-2 overflow-hidden">
+          <View className="w-full bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-700 mt-2 overflow-hidden">
             {data.map((item) => (
               <Pressable
                 key={item.id}
@@ -173,7 +173,7 @@ const incomeStyle = useAnimatedStyle(() => ({
                   <Ionicons name={item.icon as any} size={18} color="#2B2B2B" />
                 </View>
 
-                <Text className="font-poppins text-text-primary">
+                <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
                   {item.title}
                 </Text>
               </Pressable>
@@ -182,13 +182,13 @@ const incomeStyle = useAnimatedStyle(() => ({
         )}
       </View>
       <View className="py-3">
-        <Text className="font-poppins-semibold mb-1">Date</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Date</Text>
 
         <Pressable
           onPress={() => setShowDatePicker(true)}
-          className="w-full h-12 flex-row items-center justify-between border border-gray-300 bg-white rounded-md px-3"
+          className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
-          <Text className="font-poppins text-text-secondary">
+          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
             {date.toLocaleDateString()}
           </Text>
 
@@ -210,14 +210,14 @@ const incomeStyle = useAnimatedStyle(() => ({
         )}
       </View>
       <View>
-        <Text className="font-poppins-semibold mb-1">Notes (Optional)</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Notes (Optional)</Text>
         <TextInput
           value={notes}
           onChangeText={setNotes}
           multiline
           textAlignVertical="top"
           placeholder="Enter notes"
-          className="w-full h-36 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
       <AppButton

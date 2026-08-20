@@ -35,34 +35,34 @@ const PeriodFilter = ({ period, setPeriod }: Props) => {
 
   return (
     <View className="flex justify-center items-center">
-      <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
+      <View className="flex-row justify-center items-center gap-4 bg-surface dark:bg-dark-surface p-2 rounded-2xl">
         <Animated.View style={weekStyle}>
           <Pressable
             className={
               period === "Week"
-                ? "bg-[#d8f3dc] rounded-2xl p-2"
+                ? "bg-[#d8f3dc] dark:bg-primary rounded-2xl p-2"
                 : "bg-transparent p-2"
             }
             onPress={() => setPeriod("Week")}
           >
-            <Text className="font-poppins-semibold text-text-primary">
+            <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
               Week
             </Text>
           </Pressable>
         </Animated.View>
 
-        <Text>|</Text>
+        <Text className="text-text-primary dark:text-dark-text-primary">|</Text>
 
         <Animated.View style={yearStyle}>
           <Pressable
             className={
               period === "Year"
-                ? "bg-[#d8f3dc] rounded-2xl p-2"
+                ? "bg-[#d8f3dc] dark:bg-primary rounded-2xl p-2"
                 : "bg-transparent p-2"
             }
             onPress={() => setPeriod("Year")}
           >
-            <Text className="font-poppins-semibold text-text-primary">
+            <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
               Year
             </Text>
           </Pressable>

@@ -8,8 +8,19 @@ import { Poppins_900Black } from "@expo-google-fonts/poppins/900Black";
 
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { colorScheme as nativeWindColorScheme } from "nativewind";
+import { useEffect } from "react";
+import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  useEffect(() => {
+    nativeWindColorScheme.set(isDark ? "dark" : "light");
+  }, [isDark]);
+
   const [fontsLoaded, fontError] = useFonts({
     Poppins_300Light,
     Poppins_400Regular,
@@ -23,11 +34,17 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        animation: "slide_from_right",
-      }}
-    />
+    <>
+      <StatusBar style={isDark ? "light" : "dark"} />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: "slide_from_right",
+          contentStyle: {
+            backgroundColor: isDark ? "#121212" : "#F7F3EA",
+          },
+        }}
+      />
+    </>
   );
 }

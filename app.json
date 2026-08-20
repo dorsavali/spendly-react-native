@@ -5,10 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "spendly",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "plugins": [
       "expo-router",
       "expo-font",
+      "expo-system-ui",
       "@react-native-community/datetimepicker"
     ],
     "ios": {

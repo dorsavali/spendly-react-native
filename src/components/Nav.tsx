@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { ComponentProps } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, usePathname } from "expo-router";
 import Animated, {
@@ -16,7 +16,7 @@ type MenuType = {
   id: number;
   title: string;
   icon: IconName;
-  route?: "/home" | "/statistics" | "/transaction" | "/profile";
+  route?: "/home" | "/statistics" | "/transaction" | "/setting";
 };
 
 type TabItemProps = {
@@ -27,6 +27,7 @@ type TabItemProps = {
 
 const TabItem = ({ item, active, onPress }: TabItemProps) => {
   const isAdd = item.id === 3;
+  const isDark = useColorScheme() === "dark";
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -63,9 +64,13 @@ const TabItem = ({ item, active, onPress }: TabItemProps) => {
             size={isAdd ? 22 : 18}
             color={
               isAdd
-                ? "#2B2B2B"
+                ? isDark
+                  ? "#F5F5F5"
+                  : "#2B2B2B"
                 : active
                 ? "#2E8B57"
+                : isDark
+                ? "#F5F5F5"
                 : "#6B705C"
             }
           />
@@ -73,11 +78,11 @@ const TabItem = ({ item, active, onPress }: TabItemProps) => {
           <Text
             className={
               isAdd
-                ? "font-poppins text-xs text-text-primary"
+                ? "font-poppins text-xs text-text-primary dark:text-dark-text-primary"
                 : `font-poppins text-xs ${
                     active
                       ? "text-primary font-poppins-semibold"
-                      : "text-text-primary"
+                      : "text-text-primary dark:text-dark-text-primary"
                   }`
             }
           >
@@ -107,7 +112,7 @@ const Navbar = () => {
       icon: "pricetags-outline",
       route: "/transaction",
     },
-    { id: 5, title: "Profile", icon: "person-outline", route: "/profile" },
+    { id: 5, title: "setting", icon: "person-outline", route: "/setting" },
   ];
 
   const handlePress = (item: MenuType) => {
@@ -124,9 +129,9 @@ const Navbar = () => {
   return (
     <SafeAreaView
       edges={["bottom"]}
-      className="absolute bottom-0 left-0 right-0 bg-white"
+      className="absolute bottom-0 left-0 right-0 bg-white dark:bg-dark-surface"
     >
-      <View className="flex-row bg-white rounded-t-2xl items-center justify-around px-2 py-1">
+      <View className="flex-row bg-white dark:bg-dark-surface rounded-t-2xl items-center justify-around px-2 py-1">
         {data.map((item) => (
           <TabItem
             key={item.id}

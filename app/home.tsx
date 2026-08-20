@@ -1,60 +1,108 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import Categories from "../src/components/HomeCategories";
-import RecentTransation from "../src/components/RecentTransactions";
 import Navbar from "../src/components/Nav";
+import RecentTransation from "../src/components/RecentTransactions";
+
+
+import { formatCurrency } from "../src/utils/currency";
+import { useSettingsStore } from "../src/store/SettingStore";
 import { useExpenseStore } from "../src/store/ExpenseStore";
+
 const Home = () => {
   const { username } = useLocalSearchParams();
-  const expenses = useExpenseStore((state) => state.expenses);
 
-const totalIncome = expenses
-  .filter((item) => item.type === "Income")
-  .reduce((sum, item) => sum + item.amount, 0);
+  const expenses = useExpenseStore(
+    (state) => state.expenses
+  );
 
-const totalExpense = expenses
-  .filter((item) => item.type === "Expense")
-  .reduce((sum, item) => sum + item.amount, 0);
+  const currency = useSettingsStore(
+    (state) => state.currency
+  );
 
-const totalBalance = totalIncome - totalExpense;
+  const totalIncome = expenses
+    .filter((item) => item.type === "Income")
+    .reduce(
+      (sum, item) => sum + item.amount,
+      0
+    );
+
+  const totalExpense = expenses
+    .filter((item) => item.type === "Expense")
+    .reduce(
+      (sum, item) => sum + item.amount,
+      0
+    );
+
+  const totalBalance =
+    totalIncome - totalExpense;
+
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className="flex-1  bg-background  w-full gap-4">
-        <View className="flex-row justify-between items-center gap-2 px-5 py-3">
-          <Text className="font-poppins-semibold text-xl text-text-primary">
-            Welcome Back, {username}!
+    <SafeAreaView className="flex-1 bg-background dark:bg-dark-background w-full gap-4">
+      <View className="flex-row justify-between items-center gap-2 px-5 py-3">
+        <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
+          Welcome Back, {username}!
+        </Text>
+
+        <Ionicons
+          name="person-outline"
+          size={24}
+          color="#2E8B57"
+        />
+      </View>
+
+      <View className="w-full gap-3 px-5">
+        <View className="bg-white dark:bg-dark-surface w-full h-52 rounded-2xl justify-center items-center gap-6">
+          <Text className="font-poppins-semibold text-xl text-text-secondary dark:text-dark-text-secondary">
+            Total Balance
           </Text>
-          <Ionicons name="person-outline" size={24} color="#2E8B57" />
+
+          <Text className="font-poppins-bold text-2xl text-text-primary dark:text-white">
+            {formatCurrency(
+              totalBalance,
+              currency
+            )}
+          </Text>
         </View>
-        <View className="w-full  flex gap-3 px-5">
-          <View className="bg-white w-full h-52 rounded-2xl  flex justify-center items-center gap-6">
-            <Text className="font-poppins-semibold text-xl text-text-secondary">
-              Total Balance
+
+        <View className="flex-row gap-2">
+          <View className="bg-white dark:bg-dark-surface flex-1 rounded-2xl h-32 justify-center items-center gap-6">
+            <Text className="font-poppins-semibold text-lg text-success">
+              Income
             </Text>
-            <Text className="font-poppins-bold text-2xl"> €{totalBalance}</Text>
+
+            <Text className="font-poppins-bold text-xl text-text-primary dark:text-white">
+              {formatCurrency(
+                totalIncome,
+                currency
+              )}
+            </Text>
           </View>
-          <View className="flex-row justify-between gap-2">
-            <View className="bg-white w-1/2 flex rounded-2xl h-32 flex justify-center items-center gap-6">
-              <Text className="font-poppins-semibold text-lg text-success">
-                Income
-              </Text>
-              <Text className="font-poppins-bold text-xl">€{totalIncome}</Text>
-            </View>
-            <View className="bg-white w-1/2 flex rounded-2xl h-32 flex justify-center items-center gap-6">
-              <Text className="font-poppins-semibold text-lg text-danger">
-                Expense
-              </Text>
-              <Text className="font-poppins-bold text-xl">€{totalExpense}</Text>
-            </View>
+
+          <View className="bg-white dark:bg-dark-surface flex-1 rounded-2xl h-32 justify-center items-center gap-6">
+            <Text className="font-poppins-semibold text-lg text-danger">
+              Expense
+            </Text>
+
+            <Text className="font-poppins-bold text-xl text-text-primary dark:text-white">
+              {formatCurrency(
+                totalExpense,
+                currency
+              )}
+            </Text>
           </View>
         </View>
+      </View>
+
       <Categories />
-      <RecentTransation/>
-      <Navbar/>
-      </SafeAreaView>
-    </SafeAreaProvider>
+
+      <RecentTransation />
+
+      <Navbar />
+    </SafeAreaView>
   );
 };
 

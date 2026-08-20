@@ -20,7 +20,7 @@ const Search = ({ search, setSearch }: SearchProps) => {
         value={search}
         onChangeText={setSearch}
         placeholder="Search transactions..."
-        className="w-full h-12 border rounded-2xl border-gray-300 bg-white px-12 text-text-secondary"
+        className="w-full h-12 border rounded-2xl border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface px-12 text-text-secondary dark:text-dark-text-secondary"
       />
     </View>
   );

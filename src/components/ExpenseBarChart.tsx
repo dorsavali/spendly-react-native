@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, useColorScheme, View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 
 type Expense = {
@@ -13,6 +13,7 @@ type Props = {
 };
 
 const ExpenseBarChart = ({ expenses, period }: Props) => {
+  const isDark = useColorScheme() === "dark";
   const now = new Date();
 
   const currentYear = now.getFullYear();
@@ -143,8 +144,8 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
   const chartData = period === "Week" ? weeklyData : yearlyData;
 
   return (
-    <View className="w-full bg-white rounded-2xl overflow-hidden">
-      <Text className="font-poppins-semibold text-lg text-text-primary mb-4 p-5">
+    <View className="w-full bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
+      <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary mb-4 p-5">
         Expense by Time
       </Text>
 
@@ -179,20 +180,20 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
   ]}
 
   yAxisTextStyle={{
-    color: "#6B705C",
+    color: isDark ? "#A3A3A3" : "#6B705C",
     fontSize: 11,
     fontFamily: "Poppins_400Regular",
   }}
 
   xAxisLabelTextStyle={{
-    color: "#6B705C",
+    color: isDark ? "#A3A3A3" : "#6B705C",
     fontSize: 10,
     fontFamily: "Poppins_400Regular",
   }}
 
-  rulesColor="#E5E7EB"
-  xAxisColor="#D1D5DB"
-  yAxisColor="#D1D5DB"
+  rulesColor={isDark ? "#374151" : "#E5E7EB"}
+  xAxisColor={isDark ? "#4B5563" : "#D1D5DB"}
+  yAxisColor={isDark ? "#4B5563" : "#D1D5DB"}
 />
     </View>
   );

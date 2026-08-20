@@ -80,7 +80,7 @@ const EditTransaction = () => {
 
   if (!transaction) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center">
+      <SafeAreaView className="flex-1 items-center justify-center bg-background dark:bg-dark-background">
         <Text className="font-poppins-semibold">
           Transaction not found
         </Text>
@@ -89,7 +89,7 @@ const EditTransaction = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1 w-full px-4">
+    <SafeAreaView className="flex-1 w-full bg-background px-4 dark:bg-dark-background">
       <View className="relative flex-row items-center justify-center py-3">
         <Pressable
           className="absolute left-0"
@@ -101,13 +101,13 @@ const EditTransaction = () => {
           />
         </Pressable>
 
-        <Text className="font-poppins-semibold text-xl text-text-primary">
+        <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
           Edit Transaction
         </Text>
       </View>
 
       <View className="flex justify-center items-center">
-        <View className="flex-row justify-center items-center gap-4 bg-surface p-2 rounded-2xl">
+        <View className="flex-row justify-center items-center gap-4 bg-surface dark:bg-dark-surface p-2 rounded-2xl">
           <Pressable
             className={
               type === "Expense"
@@ -116,7 +116,7 @@ const EditTransaction = () => {
             }
             onPress={() => setType("Expense")}
           >
-            <Text className="font-poppins-semibold text-text-primary">
+            <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
               Expense
             </Text>
           </Pressable>
@@ -131,7 +131,7 @@ const EditTransaction = () => {
             }
             onPress={() => setType("Income")}
           >
-            <Text className="font-poppins-semibold text-text-primary">
+            <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
               Income
             </Text>
           </Pressable>
@@ -139,7 +139,7 @@ const EditTransaction = () => {
       </View>
 
       <View>
-        <Text className="font-poppins-semibold mb-1">
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
           Amount
         </Text>
 
@@ -147,24 +147,24 @@ const EditTransaction = () => {
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
-          className="w-full h-12 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
 
       <View>
-        <Text className="font-poppins-semibold mb-1">
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
           Title
         </Text>
 
         <TextInput
           value={title}
           onChangeText={setTitle}
-          className="w-full h-12 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
 
       <View className="w-full">
-        <Text className="font-poppins-semibold mb-1">
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
           Category
         </Text>
 
@@ -172,9 +172,9 @@ const EditTransaction = () => {
           onPress={() =>
             setCategoryOpen(!categoryOpen)
           }
-          className="w-full h-12 flex-row items-center justify-between border border-gray-300 bg-white rounded-md px-3"
+          className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
-          <Text className="font-poppins text-text-secondary">
+          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
             {category}
           </Text>
 
@@ -190,7 +190,7 @@ const EditTransaction = () => {
         </Pressable>
 
         {categoryOpen && (
-          <View className="w-full bg-white rounded-2xl border border-gray-200 mt-2 overflow-hidden">
+          <View className="w-full bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-700 mt-2 overflow-hidden">
             {categories.map((item) => (
               <Pressable
                 key={item.id}
@@ -210,7 +210,7 @@ const EditTransaction = () => {
                   />
                 </View>
 
-                <Text className="font-poppins text-text-primary">
+                <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
                   {item.title}
                 </Text>
               </Pressable>
@@ -220,7 +220,7 @@ const EditTransaction = () => {
       </View>
 
       <View className="py-3">
-        <Text className="font-poppins-semibold mb-1">
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
           Date
         </Text>
 
@@ -228,9 +228,9 @@ const EditTransaction = () => {
           onPress={() =>
             setShowDatePicker(true)
           }
-          className="w-full h-12 flex-row items-center justify-between border border-gray-300 bg-white rounded-md px-3"
+          className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
-          <Text className="font-poppins text-text-secondary">
+          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
             {date.toLocaleDateString()}
           </Text>
 
@@ -257,7 +257,7 @@ const EditTransaction = () => {
       </View>
 
       <View>
-        <Text className="font-poppins-semibold mb-1">
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
           Notes (Optional)
         </Text>
 
@@ -266,7 +266,7 @@ const EditTransaction = () => {
           onChangeText={setNotes}
           multiline
           textAlignVertical="top"
-          className="w-full h-36 border border-gray-300 bg-white rounded-md px-3 mb-4"
+          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
 
