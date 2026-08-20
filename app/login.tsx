@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  useColorScheme,
   View,
 } from "react-native";
 import {
@@ -20,6 +21,7 @@ import { useAuthStore } from "../src/store/AuthStrore";
 const Login = () => {
   const [text, setText] = useState("");
   const [number, setNumber] = useState("");
+  const isDark = useColorScheme() === "dark";
 
   const router = useRouter();
 
@@ -82,6 +84,7 @@ const Login = () => {
                 value={text}
                 className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white p-2 mb-4 text-text-primary dark:bg-dark-surface dark:text-dark-text-primary rounded-md"
                 placeholder="Username"
+                placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
               />
 
               <TextInput
@@ -89,6 +92,7 @@ const Login = () => {
                 value={number}
                 className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white p-2 mb-4 text-text-primary dark:bg-dark-surface dark:text-dark-text-primary rounded-md"
                 placeholder="Password"
+                placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
                 secureTextEntry
               />
 

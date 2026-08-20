@@ -6,6 +6,7 @@ import {
   Pressable,
   Text,
   TextInput,
+  useColorScheme,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +17,7 @@ import AppButton from "../src/components/AppButton";
 
 const EditTransaction = () => {
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -98,6 +100,7 @@ const EditTransaction = () => {
           <Ionicons
             name="return-down-back-outline"
             size={24}
+            color={isDark ? "#F5F5F5" : "#2B2B2B"}
           />
         </Pressable>
 

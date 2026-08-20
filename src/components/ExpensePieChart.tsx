@@ -101,7 +101,7 @@ const ExpensePieChart = ({ expenses }: Props) => {
         innerRadius={60}
         centerLabelComponent={() => (
           <View className="items-center">
-            <Text className="font-poppins-bold text-lg text-text-primary dark:text-dark-text-primary">
+            <Text className="font-poppins-bold text-lg text-text-primary dark:text-primary">
               {formatCurrency(
                 totalExpense,
                 currency

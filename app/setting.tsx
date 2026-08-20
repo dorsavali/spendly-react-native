@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -13,6 +13,7 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 
 const Settings = () => {
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
 
   const currency = useSettingsStore(
     (state) => state.currency
@@ -45,7 +46,7 @@ const Settings = () => {
           <Ionicons
             name="return-down-back-outline"
             size={24}
-            color="#2B2B2B"
+            color={isDark ? "#F5F5F5" : "#2B2B2B"}
           />
         </Pressable>
 

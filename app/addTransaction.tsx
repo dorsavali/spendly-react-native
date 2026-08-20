@@ -7,7 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Navbar from "../src/components/Nav";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -15,6 +15,7 @@ import AppButton from "../src/components/AppButton";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 const AddExpense = () => {
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
   const addExpense = useExpenseStore((state) => state.addExpense);
   const [amount, setAmount] = useState(""); 
   const [title, setTitle] = useState("");
@@ -74,7 +75,7 @@ const incomeStyle = useAnimatedStyle(() => ({
     <SafeAreaView className="flex-1 w-full bg-background px-4 dark:bg-dark-background">
       <View className="relative flex-row items-center justify-center py-3">
         <Pressable className="absolute left-0" onPress={() => router.back()}>
-          <Ionicons name="return-down-back-outline" size={24} />
+          <Ionicons name="return-down-back-outline" size={24} color={isDark ? "#F5F5F5" : "#2B2B2B"} />
         </Pressable>
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
           Add Transaction
@@ -126,6 +127,7 @@ const incomeStyle = useAnimatedStyle(() => ({
           value={amount}
           onChangeText={setAmount}
           placeholder="Enter Amount"
+          placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
           keyboardType="numeric"
           className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
@@ -137,6 +139,7 @@ const incomeStyle = useAnimatedStyle(() => ({
           value={title}
           onChangeText={setTitle}
           placeholder="Enter Title"
+          placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
           className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>
@@ -217,6 +220,7 @@ const incomeStyle = useAnimatedStyle(() => ({
           multiline
           textAlignVertical="top"
           placeholder="Enter notes"
+          placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
           className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
       </View>

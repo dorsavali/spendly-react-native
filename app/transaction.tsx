@@ -5,6 +5,7 @@ import {
   FlatList,
   Pressable,
   Text,
+  useColorScheme,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -66,6 +67,9 @@ const FilterButton = ({
 
 const Transaction = () => {
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
+  const iconColor = isDark ? "#F5F5F5" : "#2B2B2B";
+  const secondaryIconColor = isDark ? "#F5F5F5" : "#6B705C";
 
   const expenses = useExpenseStore(
     (state) => state.expenses
@@ -107,7 +111,7 @@ const Transaction = () => {
           <Ionicons
             name="return-down-back-outline"
             size={24}
-            color="#2B2B2B"
+            color={iconColor}
           />
         </Pressable>
 
@@ -163,7 +167,7 @@ const Transaction = () => {
             <Ionicons
               name="receipt-outline"
               size={42}
-              color="#6B705C"
+              color={secondaryIconColor}
             />
 
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary mt-3">
@@ -190,7 +194,7 @@ const Transaction = () => {
                       : "cash-outline"
                   }
                   size={24}
-                  color="#2B2B2B"
+                  color={iconColor}
                 />
               </View>
 
@@ -250,7 +254,7 @@ const Transaction = () => {
                 <Ionicons
                   name="ellipsis-vertical"
                   size={20}
-                  color="#6B705C"
+                  color={secondaryIconColor}
                 />
               </Pressable>
             </View>

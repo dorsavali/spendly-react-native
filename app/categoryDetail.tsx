@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ComponentProps } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import AppButton from "../src/components/AppButton";
@@ -12,6 +12,7 @@ import { useSettingsStore } from "../src/store/SettingStore";
 
 const CategoryDetail = () => {
   const router = useRouter();
+  const isDark = useColorScheme() === "dark";
   const { category } = useLocalSearchParams();
 
   const expenses = useExpenseStore((state) => state.expenses);
@@ -51,7 +52,7 @@ const CategoryDetail = () => {
           <Ionicons
             name="return-down-back-outline"
             size={24}
-            color="#2B2B2B"
+            color={isDark ? "#F5F5F5" : "#2B2B2B"}
           />
         </Pressable>
 
