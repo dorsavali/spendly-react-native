@@ -3,6 +3,7 @@
     "name": "spendly",
     "slug": "spendly",
     "version": "1.0.0",
+    "icon": "./src/assets/images/app-icon.png",
     "orientation": "portrait",
     "scheme": "spendly",
     "userInterfaceStyle": "automatic",
@@ -21,7 +22,11 @@
     },
     "android": {
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.spendly"
+      "package": "com.anonymous.spendly",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/app-icon.png",
+        "backgroundColor": "#1F4D3A"
+      }
     },
     "web": {
       "bundler": "metro"
