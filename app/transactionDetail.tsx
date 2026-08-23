@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Pressable, Text, useColorScheme, View } from "react-native";
+import { Alert, Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useExpenseStore } from "../src/store/ExpenseStore";
@@ -17,6 +17,26 @@ const TransactionDetail = () => {
     state.expenses.find((item) => item.id === id)
   );
   const currency = useSettingsStore((state) => state.currency);
+  const deleteExpense = useExpenseStore((state) => state.deleteExpense);
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete transaction?",
+      "This transaction will be permanently removed.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            deleteExpense(id);
+            router.dismissAll();
+            router.replace("/transaction");
+          },
+        },
+      ]
+    );
+  };
 
   if (!transaction) {
     return (
@@ -120,6 +140,14 @@ const TransactionDetail = () => {
           </Text>
         </View>
       </View>
+
+      <Pressable
+        onPress={handleDelete}
+        className="mt-5 flex-row items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3 active:opacity-60"
+      >
+        <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
+        <Text className="font-poppins-semibold text-white">Delete Transaction</Text>
+      </Pressable>
     </SafeAreaView>
   );
 };

@@ -12,9 +12,12 @@ import { formatCurrency } from "../src/utils/currency";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useAuthStore } from "../src/store/AuthStrore";
+import { getAvatar } from "../src/constants/avatars";
 
 const Home = () => {
   const username = useAuthStore((state) => state.username);
+  const avatarId = useAuthStore((state) => state.avatarId);
+  const avatar = getAvatar(avatarId);
 
   const expenses = useExpenseStore(
     (state) => state.expenses
@@ -50,12 +53,13 @@ const Home = () => {
 
         <Pressable
           onPress={() => router.push("/profile")}
-          className="w-10 h-10 items-center justify-center rounded-full bg-white dark:bg-dark-surface active:opacity-60"
+          className="w-10 h-10 items-center justify-center rounded-full active:opacity-60"
+          style={{ backgroundColor: avatar.backgroundColor }}
         >
           <Ionicons
-            name="person-outline"
+            name={avatar.icon}
             size={24}
-            color="#2E8B57"
+            color="#FFFFFF"
           />
         </Pressable>
       </View>

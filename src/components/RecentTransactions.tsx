@@ -5,6 +5,7 @@ import { Pressable, Text, useColorScheme, View } from "react-native";
 import { formatCurrency } from "../utils/currency";
 import { useExpenseStore } from "../store/ExpenseStore";
 import { useSettingsStore } from "../store/SettingStore";
+import { getCategory } from "../constants/categories";
 
 const RecentTransation = () => {
   const router = useRouter();
@@ -88,17 +89,7 @@ const RecentTransation = () => {
             <View className="flex-row items-center gap-3 flex-1">
               <View className="w-11 h-11 rounded-2xl bg-surface dark:bg-dark-surface items-center justify-center">
                 <Ionicons
-                  name={
-                    item.category === "Food"
-                      ? "fast-food-outline"
-                      : item.category === "Transport"
-                      ? "car-outline"
-                      : item.category === "Shopping"
-                      ? "cart-outline"
-                      : item.category === "Bills"
-                      ? "cash-outline"
-                      : "ellipsis-horizontal-circle-outline"
-                  }
+                  name={getCategory(item.category).icon}
                   size={24}
                   color={iconColor}
                 />

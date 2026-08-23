@@ -22,6 +22,8 @@ type ExpenseStore = {
     updatedExpense: Partial<Expense>
   ) => void;
 
+  deleteExpense: (id: string) => void;
+
   resetExpenses: () => void;
 };
 
@@ -42,6 +44,11 @@ export const useExpenseStore = create<ExpenseStore>()(
               ? { ...item, ...updatedExpense }
               : item
           ),
+        })),
+
+      deleteExpense: (id) =>
+        set((state) => ({
+          expenses: state.expenses.filter((item) => item.id !== id),
         })),
 
       resetExpenses: () =>

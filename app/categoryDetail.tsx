@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ComponentProps } from "react";
 import { Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,6 +8,7 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 
 import { formatCurrency } from "../src/utils/currency";
 import { useSettingsStore } from "../src/store/SettingStore";
+import { getCategory } from "../src/constants/categories";
 
 const CategoryDetail = () => {
   const router = useRouter();
@@ -27,16 +27,7 @@ const CategoryDetail = () => {
       item.category === category
   );
 
-  type IconName =
-    ComponentProps<typeof Ionicons>["name"];
-
-  const categoryIcons: Record<string, IconName> = {
-    Food: "fast-food-outline",
-    Transport: "car-outline",
-    Shopping: "cart-outline",
-    Bills: "cash-outline",
-    Others: "ellipsis-horizontal-circle-outline",
-  };
+  const categoryConfig = getCategory(String(category));
 
   const categoryTotal = filteredExpenses.reduce(
     (sum, item) => sum + item.amount,
@@ -64,24 +55,10 @@ const CategoryDetail = () => {
 
       <View className="flex-row gap-5 items-center">
         <View
-          className={`rounded-2xl items-center justify-center ${
-            category === "Food"
-              ? "bg-[#FFB703]"
-              : category === "Transport"
-              ? "bg-[#7BDFF2]"
-              : category === "Shopping"
-              ? "bg-[#F7A1C4]"
-              : category === "Bills"
-              ? "bg-[#85BB65]"
-              : "bg-[#A78BFA]"
-          }`}
+          className={`rounded-2xl items-center justify-center ${categoryConfig.bgClass}`}
         >
           <Ionicons
-            name={
-              categoryIcons[
-                category as keyof typeof categoryIcons
-              ]
-            }
+            name={categoryConfig.icon}
             size={100}
             className="p-2"
           />
@@ -101,7 +78,14 @@ const CategoryDetail = () => {
         </View>
       </View>
 
-      {filteredExpenses.map((item) => (
+      {filteredExpenses.length === 0 ? (
+        <View className="flex-1 items-center justify-center gap-2">
+          <Ionicons name="receipt-outline" size={42} color={isDark ? "#A3A3A3" : "#6B705C"} />
+          <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
+            No expenses in this category
+          </Text>
+        </View>
+      ) : filteredExpenses.map((item) => (
         <View
           key={item.id}
           className="w-full bg-white dark:bg-dark-surface rounded-2xl p-3 flex-row justify-between items-center"

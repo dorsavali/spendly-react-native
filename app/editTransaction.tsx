@@ -3,7 +3,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   useColorScheme,
@@ -12,6 +15,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import AppButton from "../src/components/AppButton";
+import { CATEGORIES } from "../src/constants/categories";
 
 
 
@@ -42,38 +46,7 @@ const EditTransaction = () => {
   const [type, setType] =
     useState<"Expense" | "Income">("Expense");
 
-  const categories = [
-    {
-      id: 1,
-      title: "Food",
-      icon: "fast-food-outline",
-      bg: "bg-[#FFB703]",
-    },
-    {
-      id: 2,
-      title: "Transport",
-      icon: "car-outline",
-      bg: "bg-[#7BDFF2]",
-    },
-    {
-      id: 3,
-      title: "Shopping",
-      icon: "cart-outline",
-      bg: "bg-[#F7A1C4]",
-    },
-    {
-      id: 4,
-      title: "Bills",
-      icon: "cash-outline",
-      bg: "bg-[#85BB65]",
-    },
-    {
-      id: 5,
-      title: "Others",
-      icon: "ellipsis-horizontal-circle-outline",
-      bg: "bg-[#A78BFA]",
-    },
-  ];
+  const [errors, setErrors] = useState({ amount: "", title: "", category: "" });
 
   useEffect(() => {
     if (!transaction) return;
@@ -96,6 +69,29 @@ const EditTransaction = () => {
     );
   }
 
+  const handleSave = () => {
+    const nextErrors = {
+      amount: !amount.trim() || !Number.isFinite(Number(amount)) || Number(amount) <= 0
+        ? "Enter an amount greater than zero"
+        : "",
+      title: title.trim() ? "" : "Title is required",
+      category: category ? "" : "Choose a category",
+    };
+
+    setErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) return;
+
+    updateExpense(id, {
+      title: title.trim(),
+      amount: Number(amount),
+      category,
+      date: date.toISOString(),
+      notes: notes.trim(),
+      type,
+    });
+    router.back();
+  };
+
   return (
     <SafeAreaView className="flex-1 w-full bg-background px-4 dark:bg-dark-background">
       <View className="relative flex-row items-center justify-center py-3">
@@ -114,6 +110,9 @@ const EditTransaction = () => {
           Edit Transaction
         </Text>
       </View>
+
+      <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 32 }}>
 
       <View className="flex justify-center items-center">
         <View className="flex-row justify-center items-center gap-4 bg-surface dark:bg-dark-surface p-2 rounded-2xl">
@@ -158,6 +157,7 @@ const EditTransaction = () => {
           keyboardType="numeric"
           className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
+        {!!errors.amount && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.amount}</Text>}
       </View>
 
       <View>
@@ -170,6 +170,7 @@ const EditTransaction = () => {
           onChangeText={setTitle}
           className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
         />
+        {!!errors.title && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.title}</Text>}
       </View>
 
       <View className="w-full">
@@ -200,7 +201,7 @@ const EditTransaction = () => {
 
         {categoryOpen && (
           <View className="w-full bg-white dark:bg-dark-surface rounded-2xl border border-gray-200 dark:border-gray-700 mt-2 overflow-hidden">
-            {categories.map((item) => (
+            {CATEGORIES.map((item) => (
               <Pressable
                 key={item.id}
                 onPress={() => {
@@ -210,7 +211,7 @@ const EditTransaction = () => {
                 className="w-full px-3 py-3 border-b border-gray-100 flex-row items-center gap-2"
               >
                 <View
-                  className={`w-9 h-9 rounded-full items-center justify-center ${item.bg}`}
+                  className={`w-9 h-9 rounded-full items-center justify-center ${item.bgClass}`}
                 >
                   <Ionicons
                     name={item.icon as any}
@@ -226,6 +227,7 @@ const EditTransaction = () => {
             ))}
           </View>
         )}
+        {!!errors.category && <Text className="font-poppins text-xs text-danger mt-1">{errors.category}</Text>}
       </View>
 
       <View className="py-3">
@@ -281,21 +283,12 @@ const EditTransaction = () => {
 
       <AppButton
         variant="outline"
-        onPress={() => {
-          updateExpense(id, {
-            title,
-            amount: Number(amount),
-            category,
-            date: date.toISOString(),
-            notes,
-            type,
-          });
-
-          router.back();
-        }}
+        onPress={handleSave}
       >
         Save Changes
       </AppButton>
+      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

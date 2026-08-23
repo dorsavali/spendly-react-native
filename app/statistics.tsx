@@ -32,6 +32,17 @@ const Statistics = () => {
         </Text>
       </View>
 
+       {filteredExpenses.length === 0 ? (
+        <View className="flex-1 items-center justify-center gap-3">
+          <Ionicons name="pie-chart-outline" size={48} color={isDark ? "#A3A3A3" : "#6B705C"} />
+          <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary">
+            No expense data yet
+          </Text>
+          <Text className="font-poppins text-center text-text-secondary dark:text-dark-text-secondary">
+            Add an expense to see charts and spending insights.
+          </Text>
+        </View>
+       ) : <>
        <View className="flex gap-11 w-full ">
 <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
   Expense Overview
@@ -43,6 +54,7 @@ const Statistics = () => {
 
       <ExpenseBarChart expenses={filteredExpenses} period={period} />
       </View>
+      </>}
       </View>
     </SafeAreaView>
   );

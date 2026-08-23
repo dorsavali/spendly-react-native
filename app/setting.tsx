@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, Text, useColorScheme, View } from "react-native";
+import { Alert, Pressable, Text, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -35,6 +35,17 @@ const Settings = () => {
     "USD",
     "GBP",
   ];
+
+  const confirmReset = () => {
+    Alert.alert(
+      "Reset all transactions?",
+      "This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Reset", style: "destructive", onPress: resetExpenses },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-background dark:bg-dark-background px-4">
@@ -135,7 +146,7 @@ const Settings = () => {
 
           <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
             <Pressable
-              onPress={resetExpenses}
+              onPress={confirmReset}
               className="flex-row items-center justify-between p-4 active:bg-red-50 dark:active:bg-gray-700"
             >
               <View className="flex-row items-center gap-3">

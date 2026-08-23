@@ -7,8 +7,11 @@ type AuthStore = {
   username: string;
   hasSeenSplash: boolean;
   hasHydrated: boolean;
+  avatarId: string;
   login: (username: string) => void;
   logout: () => void;
+  updateUsername: (username: string) => void;
+  updateAvatar: (avatarId: string) => void;
   completeSplash: () => void;
   setHasHydrated: (hasHydrated: boolean) => void;
 };
@@ -20,6 +23,7 @@ export const useAuthStore = create<AuthStore>()(
       username: "",
       hasSeenSplash: false,
       hasHydrated: false,
+      avatarId: "person-green",
 
       login: (username) =>
         set({
@@ -33,6 +37,10 @@ export const useAuthStore = create<AuthStore>()(
           username: "",
         }),
 
+      updateUsername: (username) => set({ username }),
+
+      updateAvatar: (avatarId) => set({ avatarId }),
+
       completeSplash: () => set({ hasSeenSplash: true }),
 
       setHasHydrated: (hasHydrated) => set({ hasHydrated }),
@@ -44,6 +52,7 @@ export const useAuthStore = create<AuthStore>()(
         isLoggedIn: state.isLoggedIn,
         username: state.username,
         hasSeenSplash: state.hasSeenSplash,
+        avatarId: state.avatarId,
       }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

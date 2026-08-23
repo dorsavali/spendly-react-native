@@ -21,6 +21,7 @@ import { useAuthStore } from "../src/store/AuthStrore";
 const Login = () => {
   const [text, setText] = useState("");
   const [number, setNumber] = useState("");
+  const [errors, setErrors] = useState({ username: "", password: "" });
   const isDark = useColorScheme() === "dark";
 
   const router = useRouter();
@@ -30,7 +31,12 @@ const Login = () => {
   );
 
   const handleLogin = () => {
-    if (!text || !number) return;
+    const nextErrors = {
+      username: text.trim().length < 2 ? "Enter at least 2 characters" : "",
+      password: number.length < 4 ? "Enter at least 4 characters" : "",
+    };
+    setErrors(nextErrors);
+    if (Object.values(nextErrors).some(Boolean)) return;
 
     login(text.trim());
 
@@ -81,6 +87,11 @@ const Login = () => {
                 placeholder="Username"
                 placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
               />
+              {!!errors.username && (
+                <Text className="self-start font-poppins text-xs text-danger -mt-3 mb-3">
+                  {errors.username}
+                </Text>
+              )}
 
               <TextInput
                 onChangeText={setNumber}
@@ -90,6 +101,11 @@ const Login = () => {
                 placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
                 secureTextEntry
               />
+              {!!errors.password && (
+                <Text className="self-start font-poppins text-xs text-danger -mt-3 mb-3">
+                  {errors.password}
+                </Text>
+              )}
 
               <AppButton
                 variant="outline"

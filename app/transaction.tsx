@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   FlatList,
   Pressable,
+  ScrollView,
   Text,
   useColorScheme,
   View,
@@ -22,6 +23,7 @@ import Search from "../src/components/Search";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { formatCurrency } from "../src/utils/currency";
+import { CATEGORIES, getCategory } from "../src/constants/categories";
 
 type FilterButtonProps = {
   title: "All" | "Income" | "Expense";
@@ -84,6 +86,9 @@ const Transaction = () => {
   >("All");
 
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [dateFilter, setDateFilter] = useState<"All" | "7 days" | "30 days">("All");
+  const [sortOrder, setSortOrder] = useState<"Newest" | "Oldest">("Newest");
 
   const filteredExpenses = expenses.filter((item) => {
     const matchesType =
@@ -96,10 +101,23 @@ const Transaction = () => {
         .includes(search.toLowerCase()) ||
       item.category
         .toLowerCase()
-        .includes(search.toLowerCase());
+        .includes(search.toLowerCase()) ||
+      item.notes?.toLowerCase().includes(search.toLowerCase());
 
-    return matchesType && matchesSearch;
-  });
+    const matchesCategory =
+      categoryFilter === "All" || item.category === categoryFilter;
+
+    const ageInDays =
+      (Date.now() - new Date(item.date).getTime()) / (1000 * 60 * 60 * 24);
+    const matchesDate =
+      dateFilter === "All" || ageInDays <= (dateFilter === "7 days" ? 7 : 30);
+
+    return matchesType && matchesSearch && matchesCategory && matchesDate;
+  }).sort((a, b) =>
+    sortOrder === "Newest"
+      ? new Date(b.date).getTime() - new Date(a.date).getTime()
+      : new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-background dark:bg-dark-background px-4">
@@ -149,6 +167,46 @@ const Transaction = () => {
             }
           />
         </View>
+
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+          {["All", ...CATEGORIES.map((item) => item.title)].map((item) => (
+            <Pressable
+              key={item}
+              onPress={() => setCategoryFilter(item)}
+              className={`rounded-full px-3 py-2 border active:opacity-60 ${
+                categoryFilter === item
+                  ? "bg-primary border-primary"
+                  : "bg-white dark:bg-dark-surface border-gray-300 dark:border-gray-700"
+              }`}
+            >
+              <Text className={`font-poppins text-xs ${categoryFilter === item ? "text-white" : "text-text-primary dark:text-dark-text-primary"}`}>
+                {item}
+              </Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        <View className="flex-row gap-2">
+          {(["All", "7 days", "30 days"] as const).map((item) => (
+            <Pressable
+              key={item}
+              onPress={() => setDateFilter(item)}
+              className={`flex-1 items-center rounded-xl py-2 active:opacity-60 ${dateFilter === item ? "bg-primary" : "bg-white dark:bg-dark-surface"}`}
+            >
+              <Text className={`font-poppins text-xs ${dateFilter === item ? "text-white" : "text-text-primary dark:text-dark-text-primary"}`}>
+                {item}
+              </Text>
+            </Pressable>
+          ))}
+
+          <Pressable
+            onPress={() => setSortOrder((value) => value === "Newest" ? "Oldest" : "Newest")}
+            className="flex-row items-center gap-1 rounded-xl bg-white dark:bg-dark-surface px-3 active:opacity-60"
+          >
+            <Ionicons name="swap-vertical-outline" size={16} color={secondaryIconColor} />
+            <Text className="font-poppins text-xs text-text-primary dark:text-dark-text-primary">{sortOrder}</Text>
+          </Pressable>
+        </View>
       </View>
 
       <FlatList
@@ -171,11 +229,11 @@ const Transaction = () => {
             />
 
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary mt-3">
-              No transactions found
+              {expenses.length === 0 ? "No transactions yet" : "No transactions found"}
             </Text>
 
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary mt-1">
-              Try another search or filter
+              {expenses.length === 0 ? "Add your first transaction" : "Try another search or filter"}
             </Text>
           </View>
         }
@@ -184,17 +242,7 @@ const Transaction = () => {
             <View className="flex-row items-center gap-3 flex-1">
               <View className="w-11 h-11 rounded-2xl bg-surface dark:bg-dark-surface items-center justify-center">
                 <Ionicons
-                  name={
-                    item.category === "Food"
-                      ? "fast-food-outline"
-                      : item.category === "Transport"
-                      ? "car-outline"
-                      : item.category === "Shopping"
-                      ? "cart-outline"
-                      : item.category === "Bills"
-                      ? "cash-outline"
-                      : "ellipsis-horizontal-circle-outline"
-                  }
+                  name={getCategory(item.category).icon}
                   size={24}
                   color={iconColor}
                 />
