@@ -13,17 +13,28 @@ export default function Index() {
   const isLoggedIn = useAuthStore(
     (state) => state.isLoggedIn
   );
+  const hasSeenSplash = useAuthStore((state) => state.hasSeenSplash);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
+  const completeSplash = useAuthStore((state) => state.completeSplash);
+
+  if (!hasHydrated) {
+    return null;
+  }
 
   if (isLoggedIn) {
     return <Redirect href="/home" />;
   }
 
+  if (hasSeenSplash) {
+    return <Redirect href="/login" />;
+  }
+
   return (
     <LinearGradient
       colors={[
-        "#1F4D3A",
-        "#2E8B57",
-        "#6FCF97",
+        "#2F6B53",
+        "#45A873",
+        "#91DDB0",
       ]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
@@ -53,9 +64,10 @@ export default function Index() {
 
         <AppButton
           variant="primary"
-          onPress={() =>
-            router.push("/login")
-          }
+          onPress={() => {
+            completeSplash();
+            router.replace("/login");
+          }}
         >
           Get Started
         </AppButton>

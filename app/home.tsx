@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { router } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Categories from "../src/components/HomeCategories";
@@ -47,11 +48,16 @@ const Home = () => {
           Welcome Back, {username}!
         </Text>
 
-        <Ionicons
-          name="person-outline"
-          size={24}
-          color="#2E8B57"
-        />
+        <Pressable
+          onPress={() => router.push("/profile")}
+          className="w-10 h-10 items-center justify-center rounded-full bg-white dark:bg-dark-surface active:opacity-60"
+        >
+          <Ionicons
+            name="person-outline"
+            size={24}
+            color="#2E8B57"
+          />
+        </Pressable>
       </View>
 
       <View className="w-full gap-3 px-5">

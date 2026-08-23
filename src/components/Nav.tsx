@@ -38,7 +38,7 @@ const TabItem = ({ item, active, onPress }: TabItemProps) => {
     <Pressable
       onPress={onPress}
       onPressIn={() => {
-        scale.value = withTiming(isAdd ? 1.12 : 0.96, {
+        scale.value = withTiming(isAdd ? 1.12 : 0.9, {
           duration: 120,
         });
       }}
@@ -49,7 +49,7 @@ const TabItem = ({ item, active, onPress }: TabItemProps) => {
           mass: 0.8,
         });
       }}
-      className="w-1/5 items-center justify-center py-1"
+      className="w-1/5 items-center justify-center py-1 active:opacity-60"
     >
       <Animated.View style={animatedStyle}>
         <View
@@ -112,7 +112,7 @@ const Navbar = () => {
       icon: "pricetags-outline",
       route: "/transaction",
     },
-    { id: 5, title: "setting", icon: "person-outline", route: "/setting" },
+    { id: 5, title: "Settings", icon: "settings-outline", route: "/setting" },
   ];
 
   const handlePress = (item: MenuType) => {

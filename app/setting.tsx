@@ -66,7 +66,7 @@ const Settings = () => {
               onPress={() =>
                 setCurrencyOpen(!currencyOpen)
               }
-              className="flex-row items-center justify-between p-4"
+              className="flex-row items-center justify-between p-4 active:bg-surface dark:active:bg-gray-700"
             >
               <View className="flex-row items-center gap-3">
                 <View className="w-10 h-10 bg-surface dark:bg-dark-surface rounded-xl items-center justify-center">
@@ -108,7 +108,7 @@ const Settings = () => {
                       setCurrency(item);
                       setCurrencyOpen(false);
                     }}
-                    className="flex-row items-center justify-between px-4 py-3"
+                    className="flex-row items-center justify-between px-4 py-3 active:bg-surface dark:active:bg-gray-700"
                   >
                     <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
                       {item}
@@ -136,7 +136,7 @@ const Settings = () => {
           <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
             <Pressable
               onPress={resetExpenses}
-              className="flex-row items-center justify-between p-4"
+              className="flex-row items-center justify-between p-4 active:bg-red-50 dark:active:bg-gray-700"
             >
               <View className="flex-row items-center gap-3">
                 <View className="w-10 h-10 bg-red-100 rounded-xl items-center justify-center">
@@ -154,47 +154,6 @@ const Settings = () => {
 
                   <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                     Delete all saved transactions
-                  </Text>
-                </View>
-              </View>
-
-              <Ionicons
-                name="chevron-forward-outline"
-                size={20}
-                color="#6B705C"
-              />
-            </Pressable>
-          </View>
-        </View>
-
-        <View className="gap-2">
-          <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-            Account
-          </Text>
-
-          <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
-            <Pressable
-              onPress={() =>
-                router.replace("/login")
-              }
-              className="flex-row items-center justify-between p-4"
-            >
-              <View className="flex-row items-center gap-3">
-                <View className="w-10 h-10 bg-red-100 rounded-xl items-center justify-center">
-                  <Ionicons
-                    name="log-out-outline"
-                    size={22}
-                    color="#C65D4B"
-                  />
-                </View>
-
-                <View>
-                  <Text className="font-poppins-semibold text-danger">
-                    Log Out
-                  </Text>
-
-                  <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-                    Sign out of your account
                   </Text>
                 </View>
               </View>
