@@ -243,7 +243,7 @@ const Transaction = () => {
                 onPress={() =>
                   router.push({
                     pathname:
-                      "/editTransaction/[id]",
+                      "/transactionDetail",
                     params: {
                       id: item.id,
                     },
