@@ -4,7 +4,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 type AuthStore = {
   isLoggedIn: boolean;
-  login: () => void;
+  username: string;
+  login: (username: string) => void;
   logout: () => void;
 };
 
@@ -12,15 +13,18 @@ export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       isLoggedIn: false,
+      username: "",
 
-      login: () =>
+      login: (username) =>
         set({
           isLoggedIn: true,
+          username,
         }),
 
       logout: () =>
         set({
           isLoggedIn: false,
+          username: "",
         }),
     }),
     {

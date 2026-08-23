@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,9 +10,10 @@ import RecentTransation from "../src/components/RecentTransactions";
 import { formatCurrency } from "../src/utils/currency";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { useExpenseStore } from "../src/store/ExpenseStore";
+import { useAuthStore } from "../src/store/AuthStrore";
 
 const Home = () => {
-  const { username } = useLocalSearchParams();
+  const username = useAuthStore((state) => state.username);
 
   const expenses = useExpenseStore(
     (state) => state.expenses

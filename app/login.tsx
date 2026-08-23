@@ -32,14 +32,9 @@ const Login = () => {
   const handleLogin = () => {
     if (!text || !number) return;
 
-    login();
+    login(text.trim());
 
-    router.replace({
-      pathname: "/home",
-      params: {
-        username: text,
-      },
-    });
+    router.replace("/home");
   };
 
   return (
