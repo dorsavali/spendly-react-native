@@ -35,6 +35,7 @@ const CategoryDetail = () => {
     Transport: "car-outline",
     Shopping: "cart-outline",
     Bills: "cash-outline",
+    Others: "ellipsis-horizontal-circle-outline",
   };
 
   const categoryTotal = filteredExpenses.reduce(
@@ -70,7 +71,9 @@ const CategoryDetail = () => {
               ? "bg-[#7BDFF2]"
               : category === "Shopping"
               ? "bg-[#F7A1C4]"
-              : "bg-[#85BB65]"
+              : category === "Bills"
+              ? "bg-[#85BB65]"
+              : "bg-[#A78BFA]"
           }`}
         >
           <Ionicons

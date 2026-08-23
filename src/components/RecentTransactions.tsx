@@ -95,7 +95,9 @@ const RecentTransation = () => {
                       ? "car-outline"
                       : item.category === "Shopping"
                       ? "cart-outline"
-                      : "cash-outline"
+                      : item.category === "Bills"
+                      ? "cash-outline"
+                      : "ellipsis-horizontal-circle-outline"
                   }
                   size={24}
                   color={iconColor}

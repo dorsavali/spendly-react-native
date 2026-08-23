@@ -85,11 +85,21 @@ const ExpensePieChart = ({ expenses }: Props) => {
       ? 0
       : ((totalShopping / totalExpense) * 100).toFixed(0);
 
+  const totalOthers = expenses
+    .filter((item) => item.category === "Others")
+    .reduce((sum, item) => sum + item.amount, 0);
+
+  const othersPercent =
+    totalExpense === 0
+      ? 0
+      : ((totalOthers / totalExpense) * 100).toFixed(0);
+
   const chartData = [
     { value: totalFood, color: "#FFB703", text: "Food" },
     { value: totalTransport, color: "#7BDFF2", text: "Transport" },
     { value: totalShopping, color: "#F7A1C4", text: "Shopping" },
     { value: totalBills, color: "#85BB65", text: "Bills" },
+    { value: totalOthers, color: "#A78BFA", text: "Others" },
   ];
 
   return (
@@ -205,6 +215,26 @@ const ExpensePieChart = ({ expenses }: Props) => {
 
           <Text className="text-text-primary dark:text-dark-text-primary">
             {BillsPercent}%
+          </Text>
+        </View>
+
+        <View className="flex-row justify-between">
+          <View className="flex-row gap-2">
+            <View className="bg-[#A78BFA] w-4 h-4 rounded-sm" />
+
+            <View>
+              <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">
+                Others
+              </Text>
+
+              <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+                {formatCurrency(totalOthers, currency)}
+              </Text>
+            </View>
+          </View>
+
+          <Text className="text-text-primary dark:text-dark-text-primary">
+            {othersPercent}%
           </Text>
         </View>
       </View>

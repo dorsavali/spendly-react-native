@@ -41,6 +41,12 @@ const Categories = () => {
       icon: "cash-outline",
       bg: "bg-[#85BB65]",
     },
+    {
+      id: 5,
+      title: "Others",
+      icon: "ellipsis-horizontal-circle-outline",
+      bg: "bg-[#A78BFA]",
+    },
   ];
 
   return (
@@ -51,7 +57,7 @@ const Categories = () => {
         </Text>
       </View>
 
-      <View className="flex-row justify-between gap-2 bg-white dark:bg-dark-surface rounded-2xl py-2">
+      <View className="flex-row bg-white dark:bg-dark-surface rounded-2xl py-2 px-1">
         {data.map((item) => {
           return (
             <Pressable

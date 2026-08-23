@@ -50,6 +50,12 @@ const AddExpense = () => {
       icon: "cash-outline",
       bg: "bg-[#85BB65]",
     },
+    {
+      id: 5,
+      title: "Others",
+      icon: "ellipsis-horizontal-circle-outline",
+      bg: "bg-[#A78BFA]",
+    },
   ];
   const expenseScale = useSharedValue(1);
 const incomeScale = useSharedValue(1);

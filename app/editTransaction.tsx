@@ -67,6 +67,12 @@ const EditTransaction = () => {
       icon: "cash-outline",
       bg: "bg-[#85BB65]",
     },
+    {
+      id: 5,
+      title: "Others",
+      icon: "ellipsis-horizontal-circle-outline",
+      bg: "bg-[#A78BFA]",
+    },
   ];
 
   useEffect(() => {
