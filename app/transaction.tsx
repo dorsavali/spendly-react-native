@@ -58,7 +58,7 @@ const FilterButton = ({
   return (
     <Animated.View style={animatedStyle}>
       <AppButton
-        variant={active ? "primary" : "outline"}
+        variant={active ? "outline" : "primary"}
         onPress={onPress}
       >
         {title}
