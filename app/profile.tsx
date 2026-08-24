@@ -71,7 +71,7 @@ const Profile = () => {
           {t("chooseAvatar")}
         </Text>
 
-        <View className="flex-row flex-wrap justify-between gap-y-3 rounded-2xl bg-white dark:bg-dark-surface p-4">
+        <View className="flex-row flex-wrap justify-between gap-y-3 rounded-2xl bg-white dark:bg-dark-surface p-3">
           {AVATARS.map((avatar) => {
             const isSelected = avatar.id === avatarId;
 
@@ -79,12 +79,19 @@ const Profile = () => {
               <Pressable
                 key={avatar.id}
                 onPress={() => updateAvatar(avatar.id)}
-                className={`w-[22%] aspect-square rounded-2xl items-center justify-center active:opacity-60 ${
-                  isSelected ? "border-4 border-primary" : "border-2 border-transparent"
+                className={`w-24 rounded-2xl border-4 items-center justify-center active:opacity-60 ${
+                  isSelected ? "border-primary" : "border-transparent"
                 }`}
-                style={{ backgroundColor: avatar.backgroundColor }}
+                style={{ backgroundColor: avatar.backgroundColor, aspectRatio: 1 }}
               >
-                <Ionicons name={avatar.icon} size={28} color="#FFFFFF" />
+                <View className="absolute inset-0 items-center justify-center">
+                  <Ionicons
+                    name={avatar.icon}
+                    size={28}
+                    color="#FFFFFF"
+                    style={{ lineHeight: 28, includeFontPadding: false }}
+                  />
+                </View>
                 {isSelected && (
                   <View className="absolute -right-1 -top-1 rounded-full bg-primary p-1">
                     <Ionicons name="checkmark" size={12} color="#FFFFFF" />
