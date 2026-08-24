@@ -51,7 +51,11 @@ const TransactionDetail = () => {
   return (
     <SafeAreaView className="flex-1 bg-background dark:bg-dark-background px-4">
       <View className="relative flex-row items-center justify-center py-3">
-        <Pressable className="absolute left-0 p-1" onPress={() => router.back()}>
+        <Pressable
+          className="absolute left-0 w-11 h-11 rounded-xl items-center justify-center bg-white dark:bg-dark-surface active:bg-surface dark:active:bg-gray-700"
+          onPress={() => router.back()}
+          hitSlop={8}
+        >
           <Ionicons
             name="return-down-back-outline"
             size={24}

@@ -75,7 +75,11 @@ const incomeStyle = useAnimatedStyle(() => ({
   return (
     <SafeAreaView className="flex-1 w-full bg-background px-4 dark:bg-dark-background">
       <View className="relative flex-row items-center justify-center py-3">
-        <Pressable className="absolute left-0" onPress={() => router.back()}>
+        <Pressable
+          className="absolute left-0 w-11 h-11 rounded-xl items-center justify-center bg-white dark:bg-dark-surface active:bg-surface dark:active:bg-gray-700"
+          onPress={() => router.back()}
+          hitSlop={8}
+        >
           <Ionicons name="return-down-back-outline" size={24} color={isDark ? "#F5F5F5" : "#2B2B2B"} />
         </Pressable>
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
