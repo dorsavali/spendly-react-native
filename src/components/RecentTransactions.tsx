@@ -86,7 +86,7 @@ const RecentTransation = () => {
             key={item.id}
             className="w-full bg-white dark:bg-dark-surface rounded-2xl p-3 flex-row justify-between items-center"
           >
-            <View className="flex-row items-center gap-3 flex-1">
+            <View className="flex-row items-center gap-3 flex-1 min-w-0">
               <View className="w-11 h-11 rounded-2xl bg-surface dark:bg-dark-surface items-center justify-center">
                 <Ionicons
                   name={getCategory(item.category).icon}
@@ -95,8 +95,8 @@ const RecentTransation = () => {
                 />
               </View>
 
-              <View>
-                <Text className="font-poppins-semibold text-base text-text-primary dark:text-dark-text-primary">
+              <View className="flex-1 min-w-0">
+                <Text numberOfLines={1} className="font-poppins-semibold text-base text-text-primary dark:text-dark-text-primary">
                   {item.title}
                 </Text>
 
@@ -106,7 +106,7 @@ const RecentTransation = () => {
               </View>
             </View>
 
-            <View className="items-end gap-1">
+            <View className="items-end gap-1 ml-2 flex-shrink-0">
               <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                 {new Date(
                   item.date
