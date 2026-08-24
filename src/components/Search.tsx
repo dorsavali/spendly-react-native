@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput, useColorScheme, View } from "react-native";
+import { useTranslation } from "../i18n/translations";
 
 type SearchProps = {
   search: string;
@@ -8,6 +9,7 @@ type SearchProps = {
 
 const Search = ({ search, setSearch }: SearchProps) => {
   const isDark = useColorScheme() === "dark";
+  const { t } = useTranslation();
 
   return (
     <View className="flex-row items-center rounded-2xl">
@@ -21,9 +23,9 @@ const Search = ({ search, setSearch }: SearchProps) => {
       <TextInput
         value={search}
         onChangeText={setSearch}
-        placeholder="Search transactions..."
+        placeholder={t("searchTransactions")}
         placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
-        className="w-full h-12 border rounded-2xl border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface px-12 text-text-secondary dark:text-dark-text-secondary"
+        className="w-full h-12 border rounded-2xl border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface px-12 font-poppins text-text-secondary dark:text-dark-text-secondary"
       />
     </View>
   );

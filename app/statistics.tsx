@@ -8,10 +8,12 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 import PeriodFilter from "../src/components/PeriodFilter";
 import ExpensePieChart from "../src/components/ExpensePieChart";
 import ExpenseBarChart from "../src/components/ExpenseBarChart";
+import { useTranslation } from "../src/i18n/translations";
 
 const Statistics = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
+  const { t } = useTranslation();
 
   const expenses = useExpenseStore((state) => state.expenses);
 
@@ -32,7 +34,7 @@ const Statistics = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Statistics
+          {t("statistics")}
         </Text>
       </View>
 
@@ -40,16 +42,16 @@ const Statistics = () => {
         <View className="flex-1 items-center justify-center gap-3">
           <Ionicons name="pie-chart-outline" size={48} color={isDark ? "#A3A3A3" : "#6B705C"} />
           <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary">
-            No expense data yet
+            {t("noExpenseData")}
           </Text>
           <Text className="font-poppins text-center text-text-secondary dark:text-dark-text-secondary">
-            Add an expense to see charts and spending insights.
+            {t("addExpenseForCharts")}
           </Text>
         </View>
        ) : <>
        <View className="flex gap-11 w-full ">
 <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-  Expense Overview
+  {t("expenseOverview")}
 </Text>
       <ExpensePieChart expenses={filteredExpenses} />
        </View>

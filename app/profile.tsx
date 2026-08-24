@@ -6,10 +6,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAuthStore } from "../src/store/AuthStrore";
 import { AVATARS, getAvatar } from "../src/constants/avatars";
+import { useTranslation } from "../src/i18n/translations";
 
 const Profile = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
+  const { t } = useTranslation();
   const username = useAuthStore((state) => state.username);
   const setUsername = useAuthStore((state) => state.setUsername);
   const avatarId = useAuthStore((state) => state.avatarId);
@@ -22,7 +24,7 @@ const Profile = () => {
   const handleSaveUsername = () => {
     const value = draftUsername.trim();
     if (!value) {
-      setError("Username is required");
+      setError(t("usernameRequired"));
       return;
     }
     setUsername(value);
@@ -46,7 +48,7 @@ const Profile = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Profile
+          {t("profile")}
         </Text>
       </View>
 
@@ -66,7 +68,7 @@ const Profile = () => {
 
       <View className="mt-8">
         <Text className="mb-3 font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-          Choose an avatar
+          {t("chooseAvatar")}
         </Text>
 
         <View className="flex-row flex-wrap justify-between gap-y-3 rounded-2xl bg-white dark:bg-dark-surface p-4">
@@ -102,14 +104,14 @@ const Profile = () => {
 
           <View className="flex-1">
             <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-              Username
+              {t("username")}
             </Text>
             {isEditing ? (
               <TextInput
                 value={draftUsername}
                 onChangeText={setDraftUsername}
                 autoFocus
-                placeholder="Username"
+                placeholder={t("username")}
                 placeholderTextColor={isDark ? "#A3A3A3" : "#6B705C"}
                 className="mt-1 h-11 rounded-lg border border-gray-300 dark:border-gray-700 px-3 font-poppins text-text-primary dark:text-dark-text-primary"
               />

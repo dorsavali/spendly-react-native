@@ -5,9 +5,11 @@ import { Redirect, useRouter } from "expo-router";
 
 import { useAuthStore } from "../src/store/AuthStrore";
 import AppButton from "../src/components/AppButton";
+import { useTranslation } from "../src/i18n/translations";
 
 
 export default function Index() {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const username = useAuthStore((state) => state.username);
@@ -53,11 +55,11 @@ export default function Index() {
         </Text>
 
         <Text className="font-poppins text-2xl text-white">
-          Take Control of Your Finances
+          {t("takeControl")}
         </Text>
 
         <Text className="text-center font-poppins text-lg text-white">
-          Easily track, Analyze, and Optimize Your Spending in one place
+          {t("splashDescription")}
         </Text>
 
         <AppButton
@@ -67,7 +69,7 @@ export default function Index() {
             router.replace("/setUsername");
           }}
         >
-          Get Started
+          {t("getStarted")}
         </AppButton>
       </View>
     </LinearGradient>

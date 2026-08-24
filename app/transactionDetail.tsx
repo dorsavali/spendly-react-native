@@ -6,12 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { formatCurrency } from "../src/utils/currency";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../src/i18n/translations";
 
 const TransactionDetail = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const isDark = useColorScheme() === "dark";
   const iconColor = isDark ? "#F5F5F5" : "#2B2B2B";
+  const { t, language } = useTranslation();
 
   const transaction = useExpenseStore((state) =>
     state.expenses.find((item) => item.id === id)
@@ -21,12 +23,12 @@ const TransactionDetail = () => {
 
   const handleDelete = () => {
     Alert.alert(
-      "Delete transaction?",
-      "This transaction will be permanently removed.",
+      t("deleteQuestion"),
+      t("deleteMessage"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: t("cancel"), style: "cancel" },
         {
-          text: "Delete",
+          text: t("delete"),
           style: "destructive",
           onPress: () => {
             deleteExpense(id);
@@ -42,7 +44,7 @@ const TransactionDetail = () => {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-background dark:bg-dark-background">
         <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-          Transaction not found
+          {t("transactionNotFound")}
         </Text>
       </SafeAreaView>
     );
@@ -64,7 +66,7 @@ const TransactionDetail = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Transaction Details
+          {t("transactionDetails")}
         </Text>
 
         <Pressable
@@ -83,7 +85,7 @@ const TransactionDetail = () => {
       <View className="mt-4 rounded-2xl bg-white dark:bg-dark-surface p-4 gap-5">
         <View>
           <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-            Title
+            {t("title")}
           </Text>
           <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary">
             {transaction.title}
@@ -93,7 +95,7 @@ const TransactionDetail = () => {
         <View className="flex-row justify-between gap-4">
           <View className="flex-1">
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-              Amount
+              {t("amount")}
             </Text>
             <Text
               className={`font-poppins-semibold text-lg ${
@@ -101,16 +103,16 @@ const TransactionDetail = () => {
               }`}
             >
               {transaction.type === "Expense" ? "- " : "+ "}
-              {formatCurrency(transaction.amount, currency)}
+              {formatCurrency(transaction.amount, currency, language)}
             </Text>
           </View>
 
           <View className="flex-1">
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-              Type
+              {t("type")}
             </Text>
             <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary">
-              {transaction.type}
+              {t(transaction.type === "Expense" ? "expense" : "income")}
             </Text>
           </View>
         </View>
@@ -118,29 +120,29 @@ const TransactionDetail = () => {
         <View className="flex-row justify-between gap-4">
           <View className="flex-1">
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-              Category
+              {t("category")}
             </Text>
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              {transaction.category}
+              {t(categoryTranslationKey(transaction.category))}
             </Text>
           </View>
 
           <View className="flex-1">
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-              Date
+              {t("date")}
             </Text>
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              {new Date(transaction.date).toLocaleDateString()}
+              {new Date(transaction.date).toLocaleDateString(languageLocale(language))}
             </Text>
           </View>
         </View>
 
         <View>
           <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-            Notes
+            {t("notes")}
           </Text>
           <Text className="font-poppins text-base text-text-primary dark:text-dark-text-primary mt-1">
-            {transaction.notes?.trim() || "No notes added"}
+            {transaction.notes?.trim() || t("noNotes")}
           </Text>
         </View>
       </View>
@@ -150,7 +152,7 @@ const TransactionDetail = () => {
         className="mt-5 flex-row items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3 active:opacity-60"
       >
         <Ionicons name="trash-outline" size={20} color="#FFFFFF" />
-        <Text className="font-poppins-semibold text-white">Delete Transaction</Text>
+        <Text className="font-poppins-semibold text-white">{t("deleteTransaction")}</Text>
       </Pressable>
     </SafeAreaView>
   );

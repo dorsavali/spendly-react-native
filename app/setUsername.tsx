@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 
 import AppButton from "../src/components/AppButton";
 import { useAuthStore } from "../src/store/AuthStrore";
+import { useTranslation } from "../src/i18n/translations";
 
 
 const SetUsername = () => {
@@ -23,13 +24,14 @@ const SetUsername = () => {
   const [text, setText] = useState(username);
   const [error, setError] = useState("");
   const isDark = useColorScheme() === "dark";
+  const { t } = useTranslation();
 
   const router = useRouter();
 
   const setUsername = useAuthStore((state) => state.setUsername);
 
   const handleSetUsername = () => {
-    const nextError = text.trim().length < 2 ? "Enter at least 2 characters" : "";
+    const nextError = text.trim().length < 2 ? t("usernameMin") : "";
     setError(nextError);
     if (nextError) return;
 
@@ -60,17 +62,17 @@ const SetUsername = () => {
               />
 
               <Text className="font-poppins-semibold text-2xl text-text-primary dark:text-dark-text-primary mb-6">
-                Take Control of Your Finances
+                {t("takeControl")}
               </Text>
             </View>
 
             <View className="flex justify-center items-start gap-1 w-full">
               <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-                Choose your username
+                {t("chooseUsername")}
               </Text>
 
               <Text className="font-poppins-semibold text-md text-text-secondary dark:text-dark-text-secondary">
-                This name will appear in your welcome message
+                {t("usernameHint")}
               </Text>
             </View>
 
@@ -78,8 +80,8 @@ const SetUsername = () => {
               <TextInput
                 onChangeText={setText}
                 value={text}
-                className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white p-2 mb-4 text-text-primary dark:bg-dark-surface dark:text-dark-text-primary rounded-md"
-                placeholder="Username"
+                className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white p-2 mb-4 font-poppins text-text-primary dark:bg-dark-surface dark:text-dark-text-primary rounded-md"
+                placeholder={t("username")}
                 placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
               />
               {!!error && (
@@ -92,7 +94,7 @@ const SetUsername = () => {
                 variant="outline"
                 onPress={handleSetUsername}
               >
-                Continue
+                {t("continue")}
               </AppButton>
             </View>
           </ScrollView>

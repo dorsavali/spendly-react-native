@@ -1,5 +1,7 @@
 import { Text, useColorScheme, View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
+import { languageLocale, useTranslation } from "../i18n/translations";
+import { formatNumber } from "../utils/currency";
 
 type Expense = {
   id: string;
@@ -14,6 +16,14 @@ type Props = {
 
 const ExpenseBarChart = ({ expenses, period }: Props) => {
   const isDark = useColorScheme() === "dark";
+  const { t, language } = useTranslation();
+  const locale = languageLocale(language);
+  const dayLabel = (dayIndex: number) => {
+    const date = new Date(2024, 0, 1 + dayIndex);
+    return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(date);
+  };
+  const monthLabel = (monthIndex: number) =>
+    new Intl.DateTimeFormat(locale, { month: "short" }).format(new Date(2024, monthIndex, 1));
   const now = new Date();
 
   const currentYear = now.getFullYear();
@@ -117,28 +127,28 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
     .reduce((sum, item) => sum + item.amount, 0);
 
   const weeklyData = [
-    { value: mondayTotal, label: "Mon", frontColor: "#2E8B57" },
-    { value: tuesdayTotal, label: "Tue", frontColor: "#2E8B57" },
-    { value: wednesdayTotal, label: "Wed", frontColor: "#2E8B57" },
-    { value: thursdayTotal, label: "Thu", frontColor: "#2E8B57" },
-    { value: fridayTotal, label: "Fri", frontColor: "#2E8B57" },
-    { value: saturdayTotal, label: "Sat", frontColor: "#2E8B57" },
-    { value: sundayTotal, label: "Sun", frontColor: "#2E8B57" },
+    { value: mondayTotal, label: dayLabel(0), frontColor: "#2E8B57" },
+    { value: tuesdayTotal, label: dayLabel(1), frontColor: "#2E8B57" },
+    { value: wednesdayTotal, label: dayLabel(2), frontColor: "#2E8B57" },
+    { value: thursdayTotal, label: dayLabel(3), frontColor: "#2E8B57" },
+    { value: fridayTotal, label: dayLabel(4), frontColor: "#2E8B57" },
+    { value: saturdayTotal, label: dayLabel(5), frontColor: "#2E8B57" },
+    { value: sundayTotal, label: dayLabel(6), frontColor: "#2E8B57" },
   ];
 
   const yearlyData = [
-    { value: janTotal, label: "Jan", frontColor: "#2E8B57" },
-    { value: febTotal, label: "Feb", frontColor: "#2E8B57" },
-    { value: marTotal, label: "Mar", frontColor: "#2E8B57" },
-    { value: aprTotal, label: "Apr", frontColor: "#2E8B57" },
-    { value: mayTotal, label: "May", frontColor: "#2E8B57" },
-    { value: junTotal, label: "Jun", frontColor: "#2E8B57" },
-    { value: julTotal, label: "Jul", frontColor: "#2E8B57" },
-    { value: augTotal, label: "Aug", frontColor: "#2E8B57" },
-    { value: sepTotal, label: "Sep", frontColor: "#2E8B57" },
-    { value: octTotal, label: "Oct", frontColor: "#2E8B57" },
-    { value: novTotal, label: "Nov", frontColor: "#2E8B57" },
-    { value: decTotal, label: "Dec", frontColor: "#2E8B57" },
+    { value: janTotal, label: monthLabel(0), frontColor: "#2E8B57" },
+    { value: febTotal, label: monthLabel(1), frontColor: "#2E8B57" },
+    { value: marTotal, label: monthLabel(2), frontColor: "#2E8B57" },
+    { value: aprTotal, label: monthLabel(3), frontColor: "#2E8B57" },
+    { value: mayTotal, label: monthLabel(4), frontColor: "#2E8B57" },
+    { value: junTotal, label: monthLabel(5), frontColor: "#2E8B57" },
+    { value: julTotal, label: monthLabel(6), frontColor: "#2E8B57" },
+    { value: augTotal, label: monthLabel(7), frontColor: "#2E8B57" },
+    { value: sepTotal, label: monthLabel(8), frontColor: "#2E8B57" },
+    { value: octTotal, label: monthLabel(9), frontColor: "#2E8B57" },
+    { value: novTotal, label: monthLabel(10), frontColor: "#2E8B57" },
+    { value: decTotal, label: monthLabel(11), frontColor: "#2E8B57" },
   ];
 
   const chartData = period === "Week" ? weeklyData : yearlyData;
@@ -146,7 +156,7 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
   return (
     <View className="w-full bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
       <Text className="font-poppins-semibold text-lg text-text-primary dark:text-dark-text-primary mb-4 p-5">
-        Expense by Time
+        {t("expenseByTime")}
       </Text>
 
       <BarChart
@@ -171,24 +181,24 @@ const ExpenseBarChart = ({ expenses, period }: Props) => {
   width={period === "Week" ? 310 : undefined}
 
   yAxisLabelTexts={[
-    "0",
-    "200",
-    "400",
-    "600",
-    "800",
-    "1000",
+    formatNumber(0, language),
+    formatNumber(200, language),
+    formatNumber(400, language),
+    formatNumber(600, language),
+    formatNumber(800, language),
+    formatNumber(1000, language),
   ]}
 
   yAxisTextStyle={{
     color: isDark ? "#A3A3A3" : "#6B705C",
     fontSize: 11,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Vazirmatn_400Regular",
   }}
 
   xAxisLabelTextStyle={{
     color: isDark ? "#A3A3A3" : "#6B705C",
     fontSize: 10,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: "Vazirmatn_400Regular",
   }}
 
   rulesColor={isDark ? "#374151" : "#E5E7EB"}

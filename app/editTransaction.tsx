@@ -16,12 +16,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import AppButton from "../src/components/AppButton";
 import { CATEGORIES } from "../src/constants/categories";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../src/i18n/translations";
+import { normalizeNumberInput, toPersianDigits } from "../src/utils/currency";
 
 
 
 const EditTransaction = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
+  const { t, language } = useTranslation();
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -63,7 +66,7 @@ const EditTransaction = () => {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-background dark:bg-dark-background">
         <Text className="font-poppins-semibold">
-          Transaction not found
+          {t("transactionNotFound")}
         </Text>
       </SafeAreaView>
     );
@@ -72,10 +75,10 @@ const EditTransaction = () => {
   const handleSave = () => {
     const nextErrors = {
       amount: !amount.trim() || !Number.isFinite(Number(amount)) || Number(amount) <= 0
-        ? "Enter an amount greater than zero"
+        ? t("invalidAmount")
         : "",
-      title: title.trim() ? "" : "Title is required",
-      category: category ? "" : "Choose a category",
+      title: title.trim() ? "" : t("titleRequired"),
+      category: category ? "" : t("categoryRequired"),
     };
 
     setErrors(nextErrors);
@@ -108,7 +111,7 @@ const EditTransaction = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Edit Transaction
+          {t("editTransaction")}
         </Text>
       </View>
 
@@ -126,7 +129,7 @@ const EditTransaction = () => {
             onPress={() => setType("Expense")}
           >
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              Expense
+              {t("expense")}
             </Text>
           </Pressable>
 
@@ -141,7 +144,7 @@ const EditTransaction = () => {
             onPress={() => setType("Income")}
           >
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              Income
+              {t("income")}
             </Text>
           </Pressable>
         </View>
@@ -149,34 +152,34 @@ const EditTransaction = () => {
 
       <View>
         <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
-          Amount
+          {t("amount")}
         </Text>
 
         <TextInput
-          value={amount}
-          onChangeText={setAmount}
+          value={language === "fa" ? toPersianDigits(amount) : amount}
+          onChangeText={(value) => setAmount(normalizeNumberInput(value))}
           keyboardType="numeric"
-          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
         {!!errors.amount && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.amount}</Text>}
       </View>
 
       <View>
         <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
-          Title
+          {t("title")}
         </Text>
 
         <TextInput
           value={title}
           onChangeText={setTitle}
-          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
         {!!errors.title && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.title}</Text>}
       </View>
 
       <View className="w-full">
         <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
-          Category
+          {t("category")}
         </Text>
 
         <Pressable
@@ -186,7 +189,7 @@ const EditTransaction = () => {
           className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
           <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
-            {category}
+            {t(categoryTranslationKey(category))}
           </Text>
 
           <Ionicons
@@ -222,7 +225,7 @@ const EditTransaction = () => {
                 </View>
 
                 <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
-                  {item.title}
+                  {t(categoryTranslationKey(item.title))}
                 </Text>
               </Pressable>
             ))}
@@ -233,7 +236,7 @@ const EditTransaction = () => {
 
       <View className="py-3">
         <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
-          Date
+          {t("date")}
         </Text>
 
         <Pressable
@@ -243,7 +246,7 @@ const EditTransaction = () => {
           className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
           <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
-            {date.toLocaleDateString()}
+            {date.toLocaleDateString(languageLocale(language))}
           </Text>
 
           <Ionicons
@@ -270,7 +273,7 @@ const EditTransaction = () => {
 
       <View>
         <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">
-          Notes (Optional)
+          {t("notesOptional")}
         </Text>
 
         <TextInput
@@ -278,7 +281,7 @@ const EditTransaction = () => {
           onChangeText={setNotes}
           multiline
           textAlignVertical="top"
-          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
       </View>
 
@@ -286,7 +289,7 @@ const EditTransaction = () => {
         variant="outline"
         onPress={handleSave}
       >
-        Save Changes
+        {t("saveExpense")}
       </AppButton>
       </ScrollView>
       </KeyboardAvoidingView>

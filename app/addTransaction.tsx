@@ -14,10 +14,13 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import AppButton from "../src/components/AppButton";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { CATEGORIES } from "../src/constants/categories";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../src/i18n/translations";
+import { normalizeNumberInput, toPersianDigits } from "../src/utils/currency";
 const AddExpense = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
   const addExpense = useExpenseStore((state) => state.addExpense);
+  const { t, language } = useTranslation();
   const [amount, setAmount] = useState(""); 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState(new Date());
@@ -51,10 +54,10 @@ const incomeStyle = useAnimatedStyle(() => ({
   const handleSave = () => {
     const nextErrors = {
       amount: !amount.trim() || !Number.isFinite(Number(amount)) || Number(amount) <= 0
-        ? "Enter an amount greater than zero"
+        ? t("invalidAmount")
         : "",
-      title: title.trim() ? "" : "Title is required",
-      category: category === "Choose the category" ? "Choose a category" : "",
+      title: title.trim() ? "" : t("titleRequired"),
+      category: category === "Choose the category" ? t("categoryRequired") : "",
     };
 
     setErrors(nextErrors);
@@ -83,7 +86,7 @@ const incomeStyle = useAnimatedStyle(() => ({
           <Ionicons name="return-down-back-outline" size={24} color={isDark ? "#F5F5F5" : "#2B2B2B"} />
         </Pressable>
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Add Transaction
+          {t("addTransaction")}
         </Text>
       </View>
       <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -102,7 +105,7 @@ const incomeStyle = useAnimatedStyle(() => ({
         }}
       >
         <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-          Expense
+          {t("expense")}
         </Text>
       </Pressable>
     </Animated.View>
@@ -121,45 +124,45 @@ const incomeStyle = useAnimatedStyle(() => ({
         }}
       >
         <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-          Income
+          {t("income")}
         </Text>
       </Pressable>
     </Animated.View>
   </View>
 </View>
       <View>
-        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Amount</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">{t("amount")}</Text>
 
         <TextInput
-          value={amount}
-          onChangeText={setAmount}
-          placeholder="Enter Amount"
+          value={language === "fa" ? toPersianDigits(amount) : amount}
+          onChangeText={(value) => setAmount(normalizeNumberInput(value))}
+          placeholder={t("enterAmount")}
           placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
           keyboardType="numeric"
-          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
         {!!errors.amount && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.amount}</Text>}
       </View>
       <View>
-        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Title</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">{t("title")}</Text>
 
         <TextInput
           value={title}
           onChangeText={setTitle}
-          placeholder="Enter Title"
+          placeholder={t("enterTitle")}
           placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
-          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
         {!!errors.title && <Text className="font-poppins text-xs text-danger -mt-3 mb-3">{errors.title}</Text>}
       </View>
       <View className="w-full">
-        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Category</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">{t("category")}</Text>
 
         <Pressable
           onPress={() => setCategoryOpen(!categoryOpen)}
           className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
-          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">{category}</Text>
+          <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">{category === "Choose the category" ? t("chooseCategory") : t(categoryTranslationKey(category))}</Text>
 
           <Ionicons
             name={categoryOpen ? "chevron-up" : "chevron-down"}
@@ -186,7 +189,7 @@ const incomeStyle = useAnimatedStyle(() => ({
                 </View>
 
                 <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
-                  {item.title}
+                  {t(categoryTranslationKey(item.title))}
                 </Text>
               </Pressable>
             ))}
@@ -195,14 +198,14 @@ const incomeStyle = useAnimatedStyle(() => ({
         {!!errors.category && <Text className="font-poppins text-xs text-danger mt-1">{errors.category}</Text>}
       </View>
       <View className="py-3">
-        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Date</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">{t("date")}</Text>
 
         <Pressable
           onPress={() => setShowDatePicker(true)}
           className="w-full h-12 flex-row items-center justify-between border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3"
         >
           <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
-            {date.toLocaleDateString()}
+            {date.toLocaleDateString(languageLocale(language))}
           </Text>
 
           <Ionicons name="calendar-outline" size={20} color="#6B705C" />
@@ -223,22 +226,22 @@ const incomeStyle = useAnimatedStyle(() => ({
         )}
       </View>
       <View>
-        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">Notes (Optional)</Text>
+        <Text className="font-poppins-semibold mb-1 text-text-primary dark:text-dark-text-primary">{t("notesOptional")}</Text>
         <TextInput
           value={notes}
           onChangeText={setNotes}
           multiline
           textAlignVertical="top"
-          placeholder="Enter notes"
+          placeholder={t("enterNotes")}
           placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
-          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 text-text-primary dark:text-dark-text-primary"
+          className="w-full h-36 border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-surface rounded-md px-3 mb-4 font-poppins text-text-primary dark:text-dark-text-primary"
         />
       </View>
       <AppButton
         variant="outline"
         onPress={handleSave}
       >
-        Save Expense
+        {t("saveExpense")}
       </AppButton>
       </ScrollView>
       </KeyboardAvoidingView>

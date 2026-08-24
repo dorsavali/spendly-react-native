@@ -6,15 +6,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
   Currency,
+  Language,
   useSettingsStore,
 } from "../src/store/SettingStore";
 
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useAuthStore } from "../src/store/AuthStrore";
+import { useTranslation } from "../src/i18n/translations";
 
 const Settings = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
+  const { t, language } = useTranslation();
 
   const currency = useSettingsStore(
     (state) => state.currency
@@ -27,24 +30,32 @@ const Settings = () => {
   const resetExpenses = useExpenseStore(
     (state) => state.resetExpenses
   );
+  const setLanguage = useSettingsStore((state) => state.setLanguage);
   const username = useAuthStore((state) => state.username);
 
   const [currencyOpen, setCurrencyOpen] =
     useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
 
   const currencies: Currency[] = [
     "EUR",
     "USD",
     "GBP",
+    "TOMAN",
+  ];
+  const languages: { code: Language; label: string }[] = [
+    { code: "en", label: "English" },
+    { code: "de", label: "Deutsch" },
+    { code: "fa", label: "فارسی" },
   ];
 
   const confirmReset = () => {
     Alert.alert(
-      "Reset all transactions?",
-      "This action cannot be undone.",
+      t("resetQuestion"),
+      t("resetWarning"),
       [
-        { text: "Cancel", style: "cancel" },
-        { text: "Reset", style: "destructive", onPress: resetExpenses },
+        { text: t("cancel"), style: "cancel" },
+        { text: t("reset"), style: "destructive", onPress: resetExpenses },
       ]
     );
   };
@@ -65,14 +76,14 @@ const Settings = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Settings
+          {t("settings")}
         </Text>
       </View>
 
       <View className="gap-5 mt-4">
         <View className="gap-2">
           <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-            Account
+            {t("account")}
           </Text>
 
           <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
@@ -87,7 +98,7 @@ const Settings = () => {
 
                 <View>
                   <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-                    Change Username
+                    {t("changeUsername")}
                   </Text>
                   <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                     {username}
@@ -102,7 +113,7 @@ const Settings = () => {
 
         <View className="gap-2">
           <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-            Preferences
+            {t("preferences")}
           </Text>
 
           <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
@@ -123,11 +134,11 @@ const Settings = () => {
 
                 <View>
                   <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-                    Currency
+                    {t("currency")}
                   </Text>
 
                   <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-                    {currency}
+                    {currency === "TOMAN" ? t("toman") : currency}
                   </Text>
                 </View>
               </View>
@@ -155,7 +166,7 @@ const Settings = () => {
                     className="flex-row items-center justify-between px-4 py-3 active:bg-surface dark:active:bg-gray-700"
                   >
                     <Text className="font-poppins text-text-primary dark:text-dark-text-primary">
-                      {item}
+                      {item === "TOMAN" ? t("toman") : item}
                     </Text>
 
                     {currency === item && (
@@ -170,11 +181,49 @@ const Settings = () => {
               </View>
             )}
           </View>
+
+          <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden mt-2">
+            <Pressable
+              onPress={() => setLanguageOpen((open) => !open)}
+              className="flex-row items-center justify-between p-4 active:bg-surface dark:active:bg-gray-700"
+            >
+              <View className="flex-row items-center gap-3">
+                <View className="w-10 h-10 bg-surface dark:bg-gray-700 rounded-xl items-center justify-center">
+                  <Ionicons name="language-outline" size={22} color="#2E8B57" />
+                </View>
+                <View>
+                  <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">{t("language")}</Text>
+                  <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
+                    {languages.find((item) => item.code === language)?.label}
+                  </Text>
+                </View>
+              </View>
+              <Ionicons name={languageOpen ? "chevron-up-outline" : "chevron-down-outline"} size={20} color="#6B705C" />
+            </Pressable>
+
+            {languageOpen && (
+              <View className="border-t border-gray-100 dark:border-gray-700">
+                {languages.map((item) => (
+                  <Pressable
+                    key={item.code}
+                    onPress={() => {
+                      setLanguage(item.code);
+                      setLanguageOpen(false);
+                    }}
+                    className="flex-row items-center justify-between px-4 py-3 active:bg-surface dark:active:bg-gray-700"
+                  >
+                    <Text className="font-poppins text-text-primary dark:text-dark-text-primary">{item.label}</Text>
+                    {language === item.code && <Ionicons name="checkmark-outline" size={20} color="#2E8B57" />}
+                  </Pressable>
+                ))}
+              </View>
+            )}
+          </View>
         </View>
 
         <View className="gap-2">
           <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-            Data
+            {t("data")}
           </Text>
 
           <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
@@ -193,11 +242,11 @@ const Settings = () => {
 
                 <View>
                   <Text className="font-poppins-semibold text-danger">
-                    Reset Transactions
+                    {t("resetTransactions")}
                   </Text>
 
                   <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-                    Delete all saved transactions
+                    {t("deleteSavedTransactions")}
                   </Text>
                 </View>
               </View>
@@ -213,7 +262,7 @@ const Settings = () => {
 
         <View className="gap-2">
           <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-            About
+            {t("about")}
           </Text>
 
           <View className="bg-white dark:bg-dark-surface rounded-2xl">
@@ -228,12 +277,12 @@ const Settings = () => {
                 </View>
 
                 <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-                  Version
+                  {t("version")}
                 </Text>
               </View>
 
               <Text className="font-poppins text-text-secondary dark:text-dark-text-secondary">
-                1.0.0
+                {language === "fa" ? "۱.۰.۰" : "1.0.0"}
               </Text>
             </View>
           </View>

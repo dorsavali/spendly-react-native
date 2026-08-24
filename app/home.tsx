@@ -13,8 +13,10 @@ import { useSettingsStore } from "../src/store/SettingStore";
 import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useAuthStore } from "../src/store/AuthStrore";
 import { getAvatar } from "../src/constants/avatars";
+import { useTranslation } from "../src/i18n/translations";
 
 const Home = () => {
+  const { t, language } = useTranslation();
   const username = useAuthStore((state) => state.username);
   const avatarId = useAuthStore((state) => state.avatarId);
   const avatar = getAvatar(avatarId);
@@ -48,7 +50,7 @@ const Home = () => {
     <SafeAreaView className="flex-1 bg-background dark:bg-dark-background w-full gap-4">
       <View className="flex-row justify-between items-center gap-2 px-5 py-3">
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Welcome Back, {username}!
+          {t("welcomeBack", { name: username })}
         </Text>
 
         <Pressable
@@ -67,13 +69,14 @@ const Home = () => {
       <View className="w-full gap-3 px-5">
         <View className="bg-white dark:bg-dark-surface w-full h-52 rounded-2xl justify-center items-center gap-6">
           <Text className="font-poppins-semibold text-xl text-text-secondary dark:text-dark-text-secondary">
-            Total Balance
+            {t("totalBalance")}
           </Text>
 
           <Text className="font-poppins-bold text-2xl text-text-primary dark:text-white">
             {formatCurrency(
               totalBalance,
-              currency
+              currency,
+              language
             )}
           </Text>
         </View>
@@ -81,26 +84,28 @@ const Home = () => {
         <View className="flex-row gap-2">
           <View className="bg-white dark:bg-dark-surface flex-1 rounded-2xl h-32 justify-center items-center gap-6">
             <Text className="font-poppins-semibold text-lg text-success">
-              Income
+              {t("income")}
             </Text>
 
             <Text className="font-poppins-bold text-xl text-text-primary dark:text-white">
               {formatCurrency(
                 totalIncome,
-                currency
+                currency,
+                language
               )}
             </Text>
           </View>
 
           <View className="bg-white dark:bg-dark-surface flex-1 rounded-2xl h-32 justify-center items-center gap-6">
             <Text className="font-poppins-semibold text-lg text-danger">
-              Expense
+              {t("expense")}
             </Text>
 
             <Text className="font-poppins-bold text-xl text-text-primary dark:text-white">
               {formatCurrency(
                 totalExpense,
-                currency
+                currency,
+                language
               )}
             </Text>
           </View>

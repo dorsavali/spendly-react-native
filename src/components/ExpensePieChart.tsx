@@ -3,12 +3,14 @@ import { PieChart } from "react-native-gifted-charts";
 
 import { CATEGORIES } from "../constants/categories";
 import { useSettingsStore } from "../store/SettingStore";
-import { formatCurrency } from "../utils/currency";
+import { formatCurrency, formatNumber } from "../utils/currency";
+import { categoryTranslationKey, useTranslation } from "../i18n/translations";
 
 type Expense = { id: string; amount: number; category: string };
 type Props = { expenses: Expense[] };
 
 const ExpensePieChart = ({ expenses }: Props) => {
+  const { t, language } = useTranslation();
   const currency = useSettingsStore((state) => state.currency);
   const totalExpense = expenses.reduce((sum, item) => sum + item.amount, 0);
   const categoryTotals = CATEGORIES.map((category) => {
@@ -26,9 +28,9 @@ const ExpensePieChart = ({ expenses }: Props) => {
         centerLabelComponent={() => (
           <View className="items-center">
             <Text className="font-poppins-bold text-lg text-text-primary dark:text-primary">
-              {formatCurrency(totalExpense, currency)}
+              {formatCurrency(totalExpense, currency, language)}
             </Text>
-            <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">Total Expense</Text>
+            <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">{t("totalExpense")}</Text>
           </View>
         )}
       />
@@ -39,13 +41,13 @@ const ExpensePieChart = ({ expenses }: Props) => {
             <View className="flex-row gap-2">
               <View className={`w-4 h-4 rounded-sm ${item.bgClass}`} />
               <View>
-                <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">{item.title}</Text>
+                <Text className="font-poppins-semibold text-sm text-text-primary dark:text-dark-text-primary">{t(categoryTranslationKey(item.title))}</Text>
                 <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
-                  {formatCurrency(item.value, currency)}
+                  {formatCurrency(item.value, currency, language)}
                 </Text>
               </View>
             </View>
-            <Text className="text-text-primary dark:text-dark-text-primary">{item.percent}%</Text>
+            <Text className="text-text-primary dark:text-dark-text-primary">{formatNumber(item.percent, language)}%</Text>
           </View>
         ))}
       </View>

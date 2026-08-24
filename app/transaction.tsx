@@ -24,6 +24,7 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { formatCurrency } from "../src/utils/currency";
 import { CATEGORIES, getCategory } from "../src/constants/categories";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../src/i18n/translations";
 
 type FilterButtonProps = {
   title: "All" | "Income" | "Expense";
@@ -36,6 +37,7 @@ const FilterButton = ({
   active,
   onPress,
 }: FilterButtonProps) => {
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const FilterButton = ({
         variant={active ? "outline" : "primary"}
         onPress={onPress}
       >
-        {title}
+        {t(title === "All" ? "all" : title === "Income" ? "income" : "expense")}
       </AppButton>
     </Animated.View>
   );
@@ -72,6 +74,7 @@ const Transaction = () => {
   const isDark = useColorScheme() === "dark";
   const iconColor = isDark ? "#F5F5F5" : "#2B2B2B";
   const secondaryIconColor = isDark ? "#F5F5F5" : "#6B705C";
+  const { t, language } = useTranslation();
 
   const expenses = useExpenseStore(
     (state) => state.expenses
@@ -135,7 +138,7 @@ const Transaction = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Transactions
+          {t("transactions")}
         </Text>
       </View>
 
@@ -181,7 +184,7 @@ const Transaction = () => {
               }`}
             >
               <Text className={`font-poppins text-xs ${categoryFilter === item ? "text-white" : "text-text-primary dark:text-dark-text-primary"}`}>
-                {item}
+                {item === "All" ? t("all") : t(categoryTranslationKey(item))}
               </Text>
             </Pressable>
           ))}
@@ -195,7 +198,7 @@ const Transaction = () => {
               className={`flex-1 items-center rounded-xl py-2 active:opacity-60 ${dateFilter === item ? "bg-primary" : "bg-white dark:bg-dark-surface"}`}
             >
               <Text className={`font-poppins text-xs ${dateFilter === item ? "text-white" : "text-text-primary dark:text-dark-text-primary"}`}>
-                {item}
+                {item === "All" ? t("all") : item === "7 days" ? t("sevenDays") : t("thirtyDays")}
               </Text>
             </Pressable>
           ))}
@@ -205,7 +208,7 @@ const Transaction = () => {
             className="flex-row items-center gap-1 rounded-xl bg-white dark:bg-dark-surface px-3 active:opacity-60"
           >
             <Ionicons name="swap-vertical-outline" size={16} color={secondaryIconColor} />
-            <Text className="font-poppins text-xs text-text-primary dark:text-dark-text-primary">{sortOrder}</Text>
+            <Text className="font-poppins text-xs text-text-primary dark:text-dark-text-primary">{t(sortOrder === "Newest" ? "newest" : "oldest")}</Text>
           </Pressable>
         </View>
       </View>
@@ -230,11 +233,11 @@ const Transaction = () => {
             />
 
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary mt-3">
-              {expenses.length === 0 ? "No transactions yet" : "No transactions found"}
+              {expenses.length === 0 ? t("noTransactions") : t("noTransactionsFound")}
             </Text>
 
             <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary mt-1">
-              {expenses.length === 0 ? "Add your first transaction" : "Try another search or filter"}
+              {expenses.length === 0 ? t("addFirstTransaction") : t("tryAnotherFilter")}
             </Text>
           </View>
         }
@@ -258,7 +261,7 @@ const Transaction = () => {
                 </Text>
 
                 <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-                  {item.category}
+                  {t(categoryTranslationKey(item.category))}
                 </Text>
               </View>
             </View>
@@ -268,7 +271,7 @@ const Transaction = () => {
                 <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                   {new Date(
                     item.date
-                  ).toLocaleDateString()}
+                  ).toLocaleDateString(languageLocale(language))}
                 </Text>
 
                 {item.type === "Expense" ? (
@@ -276,7 +279,8 @@ const Transaction = () => {
                     -{" "}
                     {formatCurrency(
                       item.amount,
-                      currency
+                      currency,
+                      language
                     )}
                   </Text>
                 ) : (
@@ -284,7 +288,8 @@ const Transaction = () => {
                     +{" "}
                     {formatCurrency(
                       item.amount,
-                      currency
+                      currency,
+                      language
                     )}
                   </Text>
                 )}

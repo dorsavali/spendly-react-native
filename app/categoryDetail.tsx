@@ -9,11 +9,13 @@ import { useExpenseStore } from "../src/store/ExpenseStore";
 import { formatCurrency } from "../src/utils/currency";
 import { useSettingsStore } from "../src/store/SettingStore";
 import { getCategory } from "../src/constants/categories";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../src/i18n/translations";
 
 const CategoryDetail = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
   const { category } = useLocalSearchParams();
+  const { t, language } = useTranslation();
 
   const expenses = useExpenseStore((state) => state.expenses);
 
@@ -50,7 +52,7 @@ const CategoryDetail = () => {
         </Pressable>
 
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          {category}
+          {t(categoryTranslationKey(String(category)))}
         </Text>
       </View>
 
@@ -67,13 +69,14 @@ const CategoryDetail = () => {
 
         <View>
           <Text className="font-poppins-bold text-4xl text-text-primary dark:text-dark-text-primary">
-            {category}
+            {t(categoryTranslationKey(String(category)))}
           </Text>
 
           <Text className="font-poppins text-2xl text-text-secondary dark:text-dark-text-secondary">
             {formatCurrency(
               categoryTotal,
-              currency
+              currency,
+              language
             )}
           </Text>
         </View>
@@ -83,7 +86,7 @@ const CategoryDetail = () => {
         <View className="flex-1 items-center justify-center gap-2">
           <Ionicons name="receipt-outline" size={42} color={isDark ? "#A3A3A3" : "#6B705C"} />
           <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-            No expenses in this category
+            {t("noCategoryExpenses")}
           </Text>
         </View>
       ) : filteredExpenses.map((item) => (
@@ -102,7 +105,7 @@ const CategoryDetail = () => {
               <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                 {new Date(
                   item.date
-                ).toLocaleDateString()}
+                ).toLocaleDateString(languageLocale(language))}
               </Text>
             </View>
           </View>
@@ -110,7 +113,8 @@ const CategoryDetail = () => {
           <Text className="font-poppins-semibold text-base text-danger">
             - {formatCurrency(
               item.amount,
-              currency
+              currency,
+              language
             )}
           </Text>
         </View>
@@ -123,7 +127,7 @@ const CategoryDetail = () => {
             router.push("/transaction")
           }
         >
-          See All Transactions
+          {t("seeAllTransactions")}
         </AppButton>
       </View>
     </SafeAreaView>

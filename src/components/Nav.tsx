@@ -9,6 +9,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { useTranslation } from "../i18n/translations";
 
 type IconName = ComponentProps<typeof Ionicons>["name"];
 
@@ -96,23 +97,24 @@ const TabItem = ({ item, active, onPress }: TabItemProps) => {
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   const data: MenuType[] = [
-    { id: 1, title: "Home", icon: "home-outline", route: "/home" },
+    { id: 1, title: t("home"), icon: "home-outline", route: "/home" },
     {
       id: 2,
-      title: "Statistics",
+      title: t("statistics"),
       icon: "stats-chart-outline",
       route: "/statistics",
     },
-    { id: 3, title: "Add", icon: "add-circle-outline" },
+    { id: 3, title: t("add"), icon: "add-circle-outline" },
     {
       id: 4,
-      title: "Transactions",
+      title: t("navTransactions"),
       icon: "pricetags-outline",
       route: "/transaction",
     },
-    { id: 5, title: "Settings", icon: "settings-outline", route: "/setting" },
+    { id: 5, title: t("navSettings"), icon: "settings-outline", route: "/setting" },
   ];
 
   const handlePress = (item: MenuType) => {

@@ -2,13 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { CATEGORIES } from "../constants/categories";
+import { shortCategoryTranslationKey, useTranslation } from "../i18n/translations";
 
 const Categories = () => {
+  const { t } = useTranslation();
   return (
     <View className="w-full gap-4 px-5">
       <View className="flex-row justify-between items-center">
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Categories
+          {t("categories")}
         </Text>
       </View>
 
@@ -34,7 +36,7 @@ const Categories = () => {
               />
 
               <Text className="font-poppins text-sm text-text-primary dark:text-dark-text-primary">
-                {item.title}
+                {t(shortCategoryTranslationKey(item.title))}
               </Text>
 
 

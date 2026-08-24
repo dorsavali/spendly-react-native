@@ -5,6 +5,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useTranslation } from "../i18n/translations";
 
 type Props = {
   period: "Week" | "Year";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const PeriodFilter = ({ period, setPeriod }: Props) => {
+  const { t } = useTranslation();
   const weekScale = useSharedValue(1);
   const yearScale = useSharedValue(1);
 
@@ -46,7 +48,7 @@ const PeriodFilter = ({ period, setPeriod }: Props) => {
             onPress={() => setPeriod("Week")}
           >
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              Week
+              {t("week")}
             </Text>
           </Pressable>
         </Animated.View>
@@ -63,7 +65,7 @@ const PeriodFilter = ({ period, setPeriod }: Props) => {
             onPress={() => setPeriod("Year")}
           >
             <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-              Year
+              {t("year")}
             </Text>
           </Pressable>
         </Animated.View>

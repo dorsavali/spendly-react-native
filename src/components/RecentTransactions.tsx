@@ -6,8 +6,10 @@ import { formatCurrency } from "../utils/currency";
 import { useExpenseStore } from "../store/ExpenseStore";
 import { useSettingsStore } from "../store/SettingStore";
 import { getCategory } from "../constants/categories";
+import { categoryTranslationKey, languageLocale, useTranslation } from "../i18n/translations";
 
 const RecentTransation = () => {
+  const { t, language } = useTranslation();
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
   const iconColor = isDark ? "#F5F5F5" : "#2B2B2B";
@@ -29,7 +31,7 @@ const RecentTransation = () => {
       <View className="w-full gap-4 px-5">
         <View className="w-full flex-row justify-between items-center">
           <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-            Recent Transactions
+            {t("recentTransactions")}
           </Text>
 
           <Pressable
@@ -38,7 +40,7 @@ const RecentTransation = () => {
             }
           >
             <Text className="font-poppins-semibold text-sm text-primary">
-              see all
+              {t("seeAll")}
             </Text>
           </Pressable>
         </View>
@@ -51,11 +53,11 @@ const RecentTransation = () => {
           />
 
           <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
-            No transactions yet
+            {t("noTransactions")}
           </Text>
 
           <Text className="font-poppins text-sm text-text-secondary dark:text-dark-text-secondary">
-            Add your first transaction
+            {t("addFirstTransaction")}
           </Text>
         </View>
       </View>
@@ -66,7 +68,7 @@ const RecentTransation = () => {
     <View className="w-full gap-4 px-5">
       <View className="w-full flex-row justify-between items-center">
         <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-          Recent Transactions
+          {t("recentTransactions")}
         </Text>
 
         <Pressable
@@ -75,7 +77,7 @@ const RecentTransation = () => {
           }
         >
           <Text className="font-poppins-semibold text-sm text-primary">
-            see all
+            {t("seeAll")}
           </Text>
         </Pressable>
       </View>
@@ -101,7 +103,7 @@ const RecentTransation = () => {
                 </Text>
 
                 <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
-                  {item.category}
+                  {t(categoryTranslationKey(item.category))}
                 </Text>
               </View>
             </View>
@@ -110,7 +112,7 @@ const RecentTransation = () => {
               <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
                 {new Date(
                   item.date
-                ).toLocaleDateString()}
+                ).toLocaleDateString(languageLocale(language))}
               </Text>
 
               {item.type === "Expense" ? (
@@ -118,7 +120,8 @@ const RecentTransation = () => {
                   -{" "}
                   {formatCurrency(
                     item.amount,
-                    currency
+                    currency,
+                    language
                   )}
                 </Text>
               ) : (
@@ -126,7 +129,8 @@ const RecentTransation = () => {
                   +{" "}
                   {formatCurrency(
                     item.amount,
-                    currency
+                    currency,
+                    language
                   )}
                 </Text>
               )}
