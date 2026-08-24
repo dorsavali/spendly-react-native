@@ -10,6 +10,7 @@ import {
 } from "../src/store/SettingStore";
 
 import { useExpenseStore } from "../src/store/ExpenseStore";
+import { useAuthStore } from "../src/store/AuthStrore";
 
 const Settings = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const Settings = () => {
   const resetExpenses = useExpenseStore(
     (state) => state.resetExpenses
   );
+  const username = useAuthStore((state) => state.username);
 
   const [currencyOpen, setCurrencyOpen] =
     useState(false);
@@ -67,6 +69,36 @@ const Settings = () => {
       </View>
 
       <View className="gap-5 mt-4">
+        <View className="gap-2">
+          <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
+            Account
+          </Text>
+
+          <View className="bg-white dark:bg-dark-surface rounded-2xl overflow-hidden">
+            <Pressable
+              onPress={() => router.push("/setUsername")}
+              className="flex-row items-center justify-between p-4 active:bg-surface dark:active:bg-gray-700"
+            >
+              <View className="flex-row items-center gap-3">
+                <View className="w-10 h-10 bg-surface dark:bg-gray-700 rounded-xl items-center justify-center">
+                  <Ionicons name="person-outline" size={22} color="#2E8B57" />
+                </View>
+
+                <View>
+                  <Text className="font-poppins-semibold text-text-primary dark:text-dark-text-primary">
+                    Change Username
+                  </Text>
+                  <Text className="font-poppins text-xs text-text-secondary dark:text-dark-text-secondary">
+                    {username}
+                  </Text>
+                </View>
+              </View>
+
+              <Ionicons name="chevron-forward-outline" size={20} color="#6B705C" />
+            </Pressable>
+          </View>
+        </View>
+
         <View className="gap-2">
           <Text className="font-poppins-semibold text-sm text-text-secondary dark:text-dark-text-secondary">
             Preferences

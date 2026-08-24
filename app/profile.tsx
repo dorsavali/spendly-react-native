@@ -1,10 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Pressable, ScrollView, Text, TextInput, useColorScheme, View } from "react-native";
+import { Pressable, ScrollView, Text, TextInput, useColorScheme, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import AppButton from "../src/components/AppButton";
 import { useAuthStore } from "../src/store/AuthStrore";
 import { AVATARS, getAvatar } from "../src/constants/avatars";
 
@@ -12,8 +11,7 @@ const Profile = () => {
   const router = useRouter();
   const isDark = useColorScheme() === "dark";
   const username = useAuthStore((state) => state.username);
-  const logout = useAuthStore((state) => state.logout);
-  const updateUsername = useAuthStore((state) => state.updateUsername);
+  const setUsername = useAuthStore((state) => state.setUsername);
   const avatarId = useAuthStore((state) => state.avatarId);
   const updateAvatar = useAuthStore((state) => state.updateAvatar);
   const selectedAvatar = getAvatar(avatarId);
@@ -21,28 +19,13 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogout = () => {
-    Alert.alert("Log out?", "You will need to sign in again.", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Log Out",
-        style: "destructive",
-        onPress: () => {
-          logout();
-          router.dismissAll();
-          router.replace("/login");
-        },
-      },
-    ]);
-  };
-
   const handleSaveUsername = () => {
     const value = draftUsername.trim();
     if (!value) {
       setError("Username is required");
       return;
     }
-    updateUsername(value);
+    setUsername(value);
     setError("");
     setIsEditing(false);
   };
@@ -146,13 +129,6 @@ const Profile = () => {
         {!!error && <Text className="font-poppins text-xs text-danger mt-2">{error}</Text>}
       </View>
 
-      <AppButton
-        variant="danger"
-        className="mt-6"
-        onPress={handleLogout}
-      >
-        Log Out
-      </AppButton>
       </ScrollView>
     </SafeAreaView>
   );

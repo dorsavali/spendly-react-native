@@ -10,9 +10,7 @@ import AppButton from "../src/components/AppButton";
 export default function Index() {
   const router = useRouter();
 
-  const isLoggedIn = useAuthStore(
-    (state) => state.isLoggedIn
-  );
+  const username = useAuthStore((state) => state.username);
   const hasSeenSplash = useAuthStore((state) => state.hasSeenSplash);
   const hasHydrated = useAuthStore((state) => state.hasHydrated);
   const completeSplash = useAuthStore((state) => state.completeSplash);
@@ -21,12 +19,12 @@ export default function Index() {
     return null;
   }
 
-  if (isLoggedIn) {
+  if (username) {
     return <Redirect href="/home" />;
   }
 
   if (hasSeenSplash) {
-    return <Redirect href="/login" />;
+    return <Redirect href="/setUsername" />;
   }
 
   return (
@@ -66,7 +64,7 @@ export default function Index() {
           variant="primary"
           onPress={() => {
             completeSplash();
-            router.replace("/login");
+            router.replace("/setUsername");
           }}
         >
           Get Started

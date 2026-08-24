@@ -18,27 +18,22 @@ import AppButton from "../src/components/AppButton";
 import { useAuthStore } from "../src/store/AuthStrore";
 
 
-const Login = () => {
-  const [text, setText] = useState("");
-  const [number, setNumber] = useState("");
-  const [errors, setErrors] = useState({ username: "", password: "" });
+const SetUsername = () => {
+  const username = useAuthStore((state) => state.username);
+  const [text, setText] = useState(username);
+  const [error, setError] = useState("");
   const isDark = useColorScheme() === "dark";
 
   const router = useRouter();
 
-  const login = useAuthStore(
-    (state) => state.login
-  );
+  const setUsername = useAuthStore((state) => state.setUsername);
 
-  const handleLogin = () => {
-    const nextErrors = {
-      username: text.trim().length < 2 ? "Enter at least 2 characters" : "",
-      password: number.length < 4 ? "Enter at least 4 characters" : "",
-    };
-    setErrors(nextErrors);
-    if (Object.values(nextErrors).some(Boolean)) return;
+  const handleSetUsername = () => {
+    const nextError = text.trim().length < 2 ? "Enter at least 2 characters" : "";
+    setError(nextError);
+    if (nextError) return;
 
-    login(text.trim());
+    setUsername(text.trim());
 
     router.replace("/home");
   };
@@ -71,11 +66,11 @@ const Login = () => {
 
             <View className="flex justify-center items-start gap-1 w-full">
               <Text className="font-poppins-semibold text-xl text-text-primary dark:text-dark-text-primary">
-                Welcome Back!
+                Choose your username
               </Text>
 
               <Text className="font-poppins-semibold text-md text-text-secondary dark:text-dark-text-secondary">
-                Login to your account
+                This name will appear in your welcome message
               </Text>
             </View>
 
@@ -87,31 +82,17 @@ const Login = () => {
                 placeholder="Username"
                 placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
               />
-              {!!errors.username && (
+              {!!error && (
                 <Text className="self-start font-poppins text-xs text-danger -mt-3 mb-3">
-                  {errors.username}
-                </Text>
-              )}
-
-              <TextInput
-                onChangeText={setNumber}
-                value={number}
-                className="w-full h-12 border border-gray-300 dark:border-gray-700 bg-white p-2 mb-4 text-text-primary dark:bg-dark-surface dark:text-dark-text-primary rounded-md"
-                placeholder="Password"
-                placeholderTextColor={isDark ? "#F5F5F5" : "#6B705C"}
-                secureTextEntry
-              />
-              {!!errors.password && (
-                <Text className="self-start font-poppins text-xs text-danger -mt-3 mb-3">
-                  {errors.password}
+                  {error}
                 </Text>
               )}
 
               <AppButton
                 variant="outline"
-                onPress={handleLogin}
+                onPress={handleSetUsername}
               >
-                Login
+                Continue
               </AppButton>
             </View>
           </ScrollView>
@@ -121,4 +102,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SetUsername;
