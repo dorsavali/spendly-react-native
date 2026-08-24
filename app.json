@@ -25,7 +25,7 @@
       "package": "com.anonymous.spendly",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/app-icon.png",
-        "backgroundColor": "#1F4D3A"
+        "backgroundColor": "#F7F3EA"
       }
     },
     "web": {
