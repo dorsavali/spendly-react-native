@@ -117,11 +117,13 @@ const Navbar = () => {
 
   const handlePress = (item: MenuType) => {
     if (item.id === 3) {
+      if (pathname === "/addTransaction") return;
       router.push("/addTransaction");
       return;
     }
 
     if (item.route) {
+      if (pathname === item.route) return;
       router.push(item.route);
     }
   };
