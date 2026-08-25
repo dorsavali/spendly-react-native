@@ -4,7 +4,7 @@ import { resolve } from '$app/paths';
 	let menuOpen = $state(false);
 </script>
 
-<section class="w-full px-4 sm:px-6 lg:px-12 xl:px-32 max-w-[1440px]">
+<section class="w-full bg-white px-4 sm:px-6 lg:px-12 xl:px-32 max-w-[1440px]">
 	<header class="relative z-50 flex items-center justify-between py-4">
 		<a href={resolve('/')} class="flex items-center gap-2">
 			<img src="/images/logo.webp" alt="Spendly logo" class="h-12 w-12 sm:h-14 sm:w-14" />
@@ -41,7 +41,7 @@ import { resolve } from '$app/paths';
 		</nav>
 		<a
 			href="https://github.com/dorsavali/spendly-react-native/releases/download/v1.0.1/spendly-v1.0.1.apk"
-			class="hidden items-center gap-2 rounded-xl bg-primary px-5 py-3 transition duration-500 hover:bg-secondary lg:flex"
+			class="hidden items-center gap-2 rounded-2xl bg-primary px-5 py-3 transition duration-500 hover:bg-secondary lg:flex"
 		>
 			<span class=" font-poppins text-sm font-semibold text-white transition">Download APK</span>
 			<MoveDown size={18} color="#fff" />
