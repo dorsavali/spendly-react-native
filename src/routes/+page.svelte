@@ -3,9 +3,11 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Features from '$lib/components/Features.svelte';
 	import Screenshots from '$lib/components/Screenshots.svelte';
+	import Cta from '$lib/components/Cta.svelte';
 </script>
 
 <Navbar />
 <Hero />
 <Features/>
 <Screenshots/>
+<Cta/>
