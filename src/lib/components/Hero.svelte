@@ -10,11 +10,9 @@
 			Personal Finance App
 		</p>
 
-		<div class="text-4xl font-bold leading-tight text-text-primary lg:text-6xl">
+		<div class="text-4xl leading-tight font-bold text-text-primary lg:text-6xl">
 			Track Smarter.
-			<p class="text-4xl font-bold text-text-primary lg:text-6xl">
-				Spend Better.
-			</p>
+			<p class="text-4xl font-bold text-text-primary lg:text-6xl">Spend Better.</p>
 		</div>
 
 		<p class="max-w-xl text-base leading-7 text-text-primary lg:text-lg">
@@ -27,9 +25,7 @@
 				class="flex w-full items-center justify-center rounded-2xl bg-primary px-5 py-3 text-white transition duration-500 hover:bg-secondary lg:w-auto"
 				href="https://github.com/dorsavali/spendly-react-native/releases/download/v1.0.1/spendly-v1.0.1.apk"
 			>
-				<span class="transition text-white group-hover:text-primary">
-					Download for Android
-				</span>
+				<span class="text-white transition group-hover:text-primary"> Download for Android </span>
 			</a>
 
 			<a
@@ -38,9 +34,7 @@
 				rel="noreferrer"
 				class="group flex w-full items-center justify-center rounded-2xl border border-primary bg-white px-5 py-3 text-primary transition duration-500 hover:bg-primary lg:w-auto"
 			>
-				<span class="transition group-hover:text-white">
-					GitHub
-				</span>
+				<span class="transition group-hover:text-white"> GitHub </span>
 			</a>
 		</div>
 	</div>
@@ -62,7 +56,7 @@
 		></div>
 
 		<div
-			class="absolute -left-2 bottom-16
+			class="absolute bottom-16 -left-2
 			h-20 w-20
 			rounded-full
 			border-2 border-dashed border-success/40
@@ -70,7 +64,7 @@
 		></div>
 
 		<div
-			class="absolute right-4 top-20
+			class="absolute top-20 right-4
 			h-5 w-5
 			rounded-full
 			border-2 border-primary
@@ -78,7 +72,7 @@
 		></div>
 
 		<div
-			class="absolute left-4 top-24
+			class="absolute top-24 left-4
 			h-2.5 w-2.5
 			rounded-full
 			bg-primary
@@ -94,24 +88,15 @@
 		></div>
 
 		<div
-			class="absolute left-16 bottom-4
+			class="absolute bottom-4 left-16
 			text-xl font-bold text-success
-			lg:left-24 lg:bottom-6 lg:text-2xl"
+			lg:bottom-6 lg:left-24 lg:text-2xl"
 		>
 			+
 		</div>
 
-		<video
-			autoplay
-			muted
-			loop
-			playsinline
-			class="relative z-10 w-[250px] lg:w-[430px]"
-		>
-			<source
-				src="/videos/Spendly-android-phone-transparent.webm"
-				type="video/webm"
-			/>
+		<video autoplay muted loop playsinline class="relative z-10 w-[250px] lg:w-[430px]">
+			<source src="/videos/Spendly-android-phone-transparent.webm" type="video/webm" />
 		</video>
 	</div>
 </section>

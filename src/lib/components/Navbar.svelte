@@ -114,7 +114,7 @@
 
 						<li>
 							<a
-								href="#download"
+								href="#languages"
 								onclick={() => (menuOpen = false)}
 								class="block rounded-xl px-3 py-3 font-semibold text-text-secondary transition hover:bg-surface hover:text-primary"
 							>

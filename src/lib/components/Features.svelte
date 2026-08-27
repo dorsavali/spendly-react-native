@@ -37,10 +37,15 @@
 	];
 </script>
 
-<section id="features" class="w-full bg-white py-16 lg:py-24 flex flex-col justify-center items-center">
+<section
+	id="features"
+	class="flex w-full flex-col items-center justify-center bg-white py-16 lg:py-24"
+>
 	<div class="mx-auto w-full max-w-[1440px] px-4 lg:px-12 xl:px-32">
-		<div class="gap-5 pb-5 flex flex-col items-center text-center lg:mb-14">
-			<p class="w-fit rounded-2xl bg-primary px-4 py-2 text-sm font-bold text-white opacity-80 lg:text-md">
+		<div class="flex flex-col items-center gap-5 pb-5 text-center lg:mb-14">
+			<p
+				class="lg:text-md w-fit rounded-2xl bg-primary px-4 py-2 text-sm font-bold text-white opacity-80"
+			>
 				Features
 			</p>
 
