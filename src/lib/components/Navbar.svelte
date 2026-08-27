@@ -24,7 +24,7 @@
 					<a href="#languages" class="transition-colors"> Languages </a>
 				</li>
 				<li class="text-text-secondary duration-200 hover:text-primary">
-					<a href="#download" class="transition-colors"> Download </a>
+					<a href="#languages" class="transition-colors"> Download </a>
 				</li>
 				<li class="text-text-secondary duration-200 hover:text-primary">
 					<a

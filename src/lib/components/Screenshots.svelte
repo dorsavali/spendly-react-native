@@ -79,15 +79,36 @@
 			</p>
 		</div>
 
-		<div class:opacity-0={!ready} class:opacity-100={ready} class="transition-opacity duration-300">
-			<swiper-container bind:this={swiperEl} init="false" class="w-full">
+		<div class="relative h-[430px] w-full overflow-hidden lg:h-[530px]">
+			{#if !ready}
+				<div
+					class="absolute inset-0 flex items-center justify-center"
+					aria-label="Loading screenshots"
+				>
+					<div
+						class="h-[400px] w-[200px] animate-pulse rounded-[22px] bg-surface lg:h-[500px] lg:w-[250px]"
+					></div>
+				</div>
+			{/if}
+
+			<swiper-container
+				bind:this={swiperEl}
+				init="false"
+				class:opacity-0={!ready}
+				class:opacity-100={ready}
+				class="block h-full w-full transition-opacity duration-300"
+			>
 				{#each screenshots as screenshot, index (screenshot)}
-					<swiper-slide>
-						<div class="flex items-center justify-center py-3">
+					<swiper-slide class="h-full">
+						<div class="flex h-full items-center justify-center py-3">
 							<img
 								src={screenshot}
 								alt={`Spendly screenshot ${index + 1}`}
-								class="w-[200px] rounded-[22px] select-none lg:w-[250px]"
+								class="h-[400px] w-[200px] rounded-[22px] object-cover select-none lg:h-[500px] lg:w-[250px]"
+								loading={index === 0 ? 'eager' : 'lazy'}
+								fetchpriority={index === 0 ? 'high' : 'auto'}
+								width="250"
+								height="500"
 								draggable="false"
 							/>
 						</div>
